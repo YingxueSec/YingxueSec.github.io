@@ -20,9 +20,9 @@
       
         <tags>
             
-            <tag> article </tag>
-            
             <tag> 支付 </tag>
+            
+            <tag> Article </tag>
             
         </tags>
       
@@ -475,6 +475,8 @@
         <tags>
             
             <tag> 安全 </tag>
+            
+            <tag> Article </tag>
             
         </tags>
       
