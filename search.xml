@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>apk 简单及绕过代理检测 抓包教程</title>
+      <link href="/2023/04/25/%E5%AE%89%E5%85%A8/apk%20%E7%AE%80%E5%8D%95%E5%8F%8A%E7%BB%95%E8%BF%87%E4%BB%A3%E7%90%86%E6%A3%80%E6%B5%8B%20%E6%8A%93%E5%8C%85%E6%95%99%E7%A8%8B/"/>
+      <url>/2023/04/25/%E5%AE%89%E5%85%A8/apk%20%E7%AE%80%E5%8D%95%E5%8F%8A%E7%BB%95%E8%BF%87%E4%BB%A3%E7%90%86%E6%A3%80%E6%B5%8B%20%E6%8A%93%E5%8C%85%E6%95%99%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/><h2 id="抓取普通app"><a href="#抓取普通app" class="headerlink" title="抓取普通app"></a>抓取普通app</h2><ol><li>在burp中设置本机IP地址<br> <img src="https://imagesblog.oss-cn-hangzhou.aliyuncs.com/localimages/202304252121470.png" alt="image.png"></li><li>手机模拟器中设置wlan为手动代理<br> <img src="https://imagesblog.oss-cn-hangzhou.aliyuncs.com/localimages/202304252121696.png" alt="image.png"></li><li>下载burp证书，并在download文件夹下找到证书，修改后缀为.cer,打开设置-安全-从SD卡导入-选择内部存储-download-选择证书导入<br> <img src="https://imagesblog.oss-cn-hangzhou.aliyuncs.com/localimages/202304252122757.png" alt="image.png"></li></ol><h2 id="抓取限制代理app"><a href="#抓取限制代理app" class="headerlink" title="抓取限制代理app"></a>抓取限制代理app</h2><ol><li>下载Proxifier设置如图<br><img src="https://imagesblog.oss-cn-hangzhou.aliyuncs.com/localimages/202304252127456.png" alt="image.png"></li></ol><p><img src="https://imagesblog.oss-cn-hangzhou.aliyuncs.com/localimages/202304252127271.png" alt="image.png"></p><ol start="2"><li>取消wlan代理，避免代理检测<br> <img src="https://imagesblog.oss-cn-hangzhou.aliyuncs.com/localimages/202304252129055.png" alt="image.png"></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术 </category>
+          
+          <category> 安全 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 安全 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>网安术语解释</title>
       <link href="/2023/04/23/%E5%AE%89%E5%85%A8/%E7%BD%91%E5%AE%89%E6%9C%AF%E8%AF%AD%E8%A7%A3%E9%87%8A/"/>
       <url>/2023/04/23/%E5%AE%89%E5%85%A8/%E7%BD%91%E5%AE%89%E6%9C%AF%E8%AF%AD%E8%A7%A3%E9%87%8A/</url>
